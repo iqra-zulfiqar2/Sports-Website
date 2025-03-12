@@ -3,14 +3,18 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import SA from "../assets/SA.jpg";
+import BBL from "../assets/BBL.jpg";
+import BPL from "../assets/BPL.jpg";
+import PSL from "../assets/PSL.jpg";
+import ILT20 from "../assets/ILT20.jpg";
 
 const t20Leagues = [
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/BBL-1024x576.jpg", url: "https://example.com/bbl" },
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/PSL-1024x576.jpg", url: "https://example.com/psl" },
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/BPL-1024x576.jpg", url: "https://example.com/bpl" },
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/SA20.jpg", url: "https://example.com/sa20" },
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/ILT20-1024x576.jpg", url: "https://example.com/ilt20" },
-  { src: "https://livematchzone.com/wp-content/uploads/2025/01/SA20-1024x576.jpg", url: "https://example.com/sa20" }
+  { src: BBL, url: "https://example.com/bbl" },
+  { src: PSL, url: "https://example.com/psl" },
+  { src: BPL, url: "https://example.com/bpl" },
+  { src: SA, url: "https://example.com/sa20" },
+  { src: ILT20, url: "https://example.com/ilt20" }
 ];
 
 const footballLeagues = [
