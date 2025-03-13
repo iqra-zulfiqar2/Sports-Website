@@ -1,75 +1,124 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { GoScreenFull } from "react-icons/go"; // Fullscreen Icon
+import { GoScreenNormal } from "react-icons/go"; // Exit Fullscreen Icon
 
 const VideoPage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const videoUrl = queryParams.get("url");
+  const leagueName = queryParams.get("name") || "Live Stream";
+  const leagueImage = queryParams.get("image") || "/default-league.png"; // Default image if not provided
 
   const [isPlaying, setIsPlaying] = useState(false);
-  const iframeRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false); // Track Fullscreen State
+  const videoWrapperRef = useRef(null); // Ref for fullscreen
+
+  useEffect(() => {
+    document.title = `Watch Free Live ${leagueName} Online`;
+
+    // Event listener to track fullscreen change
+    const handleFullscreenChange = () => {
+      setIsFullscreen(
+        document.fullscreenElement === videoWrapperRef.current ||
+        document.webkitFullscreenElement === videoWrapperRef.current ||
+        document.mozFullScreenElement === videoWrapperRef.current ||
+        document.msFullscreenElement === videoWrapperRef.current
+      );
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+      document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+    };
+  }, []);
 
   const handlePlayVideo = () => {
     setIsPlaying(true);
   };
 
-  const handleFullscreen = () => {
-    if (iframeRef.current) {
-      if (iframeRef.current.requestFullscreen) {
-        iframeRef.current.requestFullscreen();
-      } else if (iframeRef.current.mozRequestFullScreen) {
-        iframeRef.current.mozRequestFullScreen(); // Firefox
-      } else if (iframeRef.current.webkitRequestFullscreen) {
-        iframeRef.current.webkitRequestFullscreen(); // Chrome, Safari, Opera
-      } else if (iframeRef.current.msRequestFullscreen) {
-        iframeRef.current.msRequestFullscreen(); // IE/Edge
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      // Enter Fullscreen
+      if (videoWrapperRef.current.requestFullscreen) {
+        videoWrapperRef.current.requestFullscreen();
+      } else if (videoWrapperRef.current.mozRequestFullScreen) {
+        videoWrapperRef.current.mozRequestFullScreen(); // Firefox
+      } else if (videoWrapperRef.current.webkitRequestFullscreen) {
+        videoWrapperRef.current.webkitRequestFullscreen(); // Chrome, Safari, Opera
+      } else if (videoWrapperRef.current.msRequestFullscreen) {
+        videoWrapperRef.current.msRequestFullscreen(); // IE/Edge
+      }
+    } else {
+      // Exit Fullscreen
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen(); // Firefox
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen(); // Chrome, Safari, Opera
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen(); // IE/Edge
       }
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      <h1 className="text-2xl font-bold mt-6 mb-4">Watch Live Stream</h1>
-      
-      <div className="relative w-full max-w-4xl aspect-video bg-black">
+      <h1 className="text-2xl font-bold mt-6 mb-4">Watch Free Live {leagueName} Online</h1>
+
+      {/* Video Wrapper for Fullscreen Mode */}
+      <div
+        ref={videoWrapperRef}
+        className="relative w-full max-w-3xl h-[400px] border-2 border-[#17A56B] rounded-lg bg-black flex flex-col"
+      >
         {!isPlaying ? (
-          <>
-            <img
-              src="https://via.placeholder.com/800x450/000000/FFFFFF?text=Click+to+Play"
-              alt="Thumbnail"
-              className="w-full h-full object-cover"
-            />
+          <div className="flex items-center justify-center flex-1 bg-black">
             <button
-              className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+              className="bg-[#17A56B] px-6 py-3 rounded-md text-white font-semibold"
               onClick={handlePlayVideo}
             >
-              <svg
-                className="w-16 h-16 text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <polygon points="5,3 19,10 5,17" fill="white" />
-              </svg>
+              Watch Now
             </button>
-          </>
+          </div>
         ) : (
           <iframe
-            ref={iframeRef}
-            className="w-full h-full"
+            className="w-full h-full rounded-t-lg bg-black"
             src={videoUrl}
             frameBorder="0"
             allowFullScreen
             title="Live Stream"
           ></iframe>
         )}
-      </div>
 
-      <button
-        onClick={handleFullscreen}
-        className="mt-4 mb-10 bg-[#17A56B] px-4 py-2 rounded-full text-white"
-      >
-        Go Fullscreen
-      </button>
+        {/* Control Bar - Reduced Height */}
+        <div className="absolute bottom-0 left-0 w-full bg-[#17A56B] flex items-center justify-between px-3 py-2 rounded-b-lg">
+          {/* Left Side - Square League Image & Name */}
+          <div className="flex items-center gap-3">
+            <img
+              src={leagueImage}
+              alt={leagueName}
+              className="w-8 h-8 border border-white"
+            />
+            <span className="text-white font-semibold text-sm">{leagueName}</span>
+          </div>
+
+          {/* Right Side - Fullscreen Button (Toggle) */}
+          <button
+            onClick={toggleFullscreen}
+            className="text-white hover:text-black p-1 rounded-full transition duration-300"
+          >
+            {isFullscreen ? <GoScreenNormal size={20} /> : <GoScreenFull size={20} />}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

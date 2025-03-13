@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const ChannelPage = () => {
@@ -23,11 +23,27 @@ const ChannelPage = () => {
     "Sky Sports": "https://example.com/sky-sports-stream",
   };
 
-  const defaultVideoUrl = "";
-  const [videoUrl, setVideoUrl] = useState(defaultVideoUrl);
+  const [videoUrl, setVideoUrl] = useState("");
+  const iframeRef = useRef(null);
 
+  // Function to start video
   const handleWatchNow = () => {
     setVideoUrl(videoSources[channelName] || "https://example.com/default-stream");
+  };
+
+  // Function to enable fullscreen mode
+  const handleFullscreen = () => {
+    if (iframeRef.current) {
+      if (iframeRef.current.requestFullscreen) {
+        iframeRef.current.requestFullscreen();
+      } else if (iframeRef.current.mozRequestFullScreen) {
+        iframeRef.current.mozRequestFullScreen(); // Firefox
+      } else if (iframeRef.current.webkitRequestFullscreen) {
+        iframeRef.current.webkitRequestFullscreen(); // Chrome, Safari, Opera
+      } else if (iframeRef.current.msRequestFullscreen) {
+        iframeRef.current.msRequestFullscreen(); // IE/Edge
+      }
+    }
   };
 
   return (
@@ -39,6 +55,7 @@ const ChannelPage = () => {
       <div className="relative w-full max-w-3xl aspect-video bg-black border-2 border-[#17A56B] rounded-lg flex items-center justify-center">
         {videoUrl ? (
           <iframe
+            ref={iframeRef}
             className="w-full h-full"
             src={videoUrl}
             frameBorder="0"
@@ -54,8 +71,19 @@ const ChannelPage = () => {
           </button>
         )}
       </div>
+
+      {/* Show fullscreen button only when video is playing */}
+      {videoUrl && (
+        <button
+          className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition"
+          onClick={handleFullscreen}
+        >
+          Go Fullscreen
+        </button>
+      )}
     </div>
   );
 };
 
 export default ChannelPage;
+
