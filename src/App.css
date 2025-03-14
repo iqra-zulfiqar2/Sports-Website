@@ -1,3 +1,6 @@
-html{
-    background-color: black !important;
-  }
+html {
+  background-color: black !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

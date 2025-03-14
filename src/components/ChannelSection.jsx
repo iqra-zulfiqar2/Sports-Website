@@ -18,11 +18,15 @@ const channels = [
   { name: "Sky Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg" },
 ];
 
+// Function to generate slug
+const generateSlug = (name) => name.toLowerCase().replace(/\s+/g, "-");
+
 const ChannelSection = () => {
   const navigate = useNavigate();
 
-  const handleChannelClick = (channelName) => {
-    navigate(`/channel?name=${encodeURIComponent(channelName)}`);
+  const handleChannelClick = (channel) => {
+    const slug = generateSlug(channel.name);
+    navigate(`/channel/${slug}`);
   };
 
   return (
@@ -36,7 +40,7 @@ const ChannelSection = () => {
             <div
               key={index}
               className="bg-white rounded-lg shadow-lg shadow-gray-700 border-4 border-gray-300 flex items-center justify-center p-2 cursor-pointer"
-              onClick={() => handleChannelClick(channel.name)}
+              onClick={() => handleChannelClick(channel)}
             >
               <div className="w-full aspect-w-1 aspect-h-1">
                 <img
@@ -54,3 +58,4 @@ const ChannelSection = () => {
 };
 
 export default ChannelSection;
+

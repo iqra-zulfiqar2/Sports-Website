@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import arrow icons
 
 const slides = [
   {
     image: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
-    videoUrl: "https://example.com/embed/ipl-live-stream", // Replace with the actual embed link
+    slug: "ipl", // Slug for VideoPage
   },
   {
     image: "https://livematchzone.com/wp-content/uploads/2025/03/UEFA-Champions-League.webp",
-    videoUrl: "https://example.com/embed/uefa-live-stream",
+    slug: "ucl",
   },
   {
     image: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
-    videoUrl: "https://example.com/embed/ipl-live-stream",
+    slug: "ipl",
   },
 ];
 
@@ -29,7 +30,15 @@ const SlideShow = () => {
   }, []);
 
   const handleWatchNow = () => {
-    navigate(`/video?url=${encodeURIComponent(slides[currentSlide].videoUrl)}`);
+    navigate(`/league/${slides[currentSlide].slug}`);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   return (
@@ -44,6 +53,22 @@ const SlideShow = () => {
           <img src={slide.image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
         </div>
       ))}
+
+      {/* Left Arrow Button (Smaller Size) */}
+      <button
+        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
+        onClick={prevSlide}
+      >
+        <FaChevronLeft size={18} />
+      </button>
+
+      {/* Right Arrow Button (Smaller Size) */}
+      <button
+        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
+        onClick={nextSlide}
+      >
+        <FaChevronRight size={18} />
+      </button>
 
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
         <button

@@ -1,89 +1,96 @@
-import React, { useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { GoScreenFull, GoScreenNormal } from "react-icons/go";
+
+// Define channel data
+const channels = [
+  { name: "A Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/A-Sports-HD.jpg", stream: "https://example.com/a-sports-stream" },
+  { name: "TNT Sports 4", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4-2.jpg", stream: "https://example.com/tnt-sports-4-stream" },
+  { name: "TNT Sports 3", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4.jpg", stream: "https://example.com/tnt-sports-3-stream" },
+  { name: "Astro Cricket", img: "https://livematchzone.com/wp-content/uploads/2025/01/Astro-Cricket.jpg", stream: "https://example.com/astro-cricket-stream" },
+  { name: "Star Sports 3", img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg", stream: "https://example.com/star-sports-3-stream" },
+  { name: "Star Sports 2", img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-2.jpg", stream: "https://example.com/star-sports-2-stream" },
+  { name: "Ten Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Ten-Sports.jpg", stream: "https://example.com/ten-sports-stream" },
+  { name: "Willow Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Willow-Cricket.jpg", stream: "https://example.com/willow-sports-stream" },
+  { name: "Star Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/Star-Sports-1.jpg", stream: "https://example.com/star-sports-1-stream" },
+  { name: "PTV Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/PTV-Sports.jpg", stream: "https://example.com/ptv-sports-stream" },
+  { name: "SuperSport", img: "https://livematchzone.com/wp-content/uploads/2025/01/SuperSport-Cricket.jpg", stream: "https://example.com/supersport-stream" },
+  { name: "TNT Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-1.jpg", stream: "https://example.com/tnt-sports-1-stream" },
+  { name: "TNT Sports 2", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-2.jpg", stream: "https://example.com/tnt-sports-2-stream" },
+  { name: "Sky Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg", stream: "https://example.com/sky-sports-stream" },
+];
+
+// Convert name to slug
+const generateSlug = (name) => name.toLowerCase().replace(/\s+/g, "-");
 
 const ChannelPage = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const channelName = queryParams.get("name");
-
-  const videoSources = {
-    "A Sports": "https://example.com/a-sports-stream",
-    "TNT Sports 4": "https://example.com/tnt-sports-4-stream",
-    "TNT Sports 3": "https://example.com/tnt-sports-3-stream",
-    "Astro Cricket": "https://example.com/astro-cricket-stream",
-    "Star Sports 3": "https://example.com/star-sports-3-stream",
-    "Star Sports 2": "https://example.com/star-sports-2-stream",
-    "Ten Sports": "https://example.com/ten-sports-stream",
-    "Willow Sports": "https://example.com/willow-sports-stream",
-    "Star Sports 1": "https://example.com/star-sports-1-stream",
-    "PTV Sports": "https://example.com/ptv-sports-stream",
-    "SuperSport": "https://example.com/supersport-stream",
-    "TNT Sports 1": "https://example.com/tnt-sports-1-stream",
-    "TNT Sports 2": "https://example.com/tnt-sports-2-stream",
-    "Sky Sports": "https://example.com/sky-sports-stream",
-  };
+  const { slug } = useParams();
+  const channel = channels.find((c) => generateSlug(c.name) === slug);
 
   const [videoUrl, setVideoUrl] = useState("");
-  const iframeRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef(null);
 
-  // Function to start video
   const handleWatchNow = () => {
-    setVideoUrl(videoSources[channelName] || "https://example.com/default-stream");
+    setVideoUrl(channel?.stream || "https://example.com/default-stream");
   };
 
-  // Function to enable fullscreen mode
   const handleFullscreen = () => {
-    if (iframeRef.current) {
-      if (iframeRef.current.requestFullscreen) {
-        iframeRef.current.requestFullscreen();
-      } else if (iframeRef.current.mozRequestFullScreen) {
-        iframeRef.current.mozRequestFullScreen(); // Firefox
-      } else if (iframeRef.current.webkitRequestFullscreen) {
-        iframeRef.current.webkitRequestFullscreen(); // Chrome, Safari, Opera
-      } else if (iframeRef.current.msRequestFullscreen) {
-        iframeRef.current.msRequestFullscreen(); // IE/Edge
-      }
+    if (containerRef.current.requestFullscreen) {
+      containerRef.current.requestFullscreen();
     }
+    setIsFullscreen(true);
   };
+
+  const exitFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+    setIsFullscreen(false);
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  if (!channel) {
+    return <div className="text-white text-center mt-10">Channel not found!</div>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      {/* Channel Name */}
-      <h1 className="text-3xl font-bold mt-6 mb-4">{channelName}</h1>
+      <h1 className="text-3xl font-bold mt-6 mb-4">Watch Free Live {channel.name} Online</h1>
 
-      {/* Video Container */}
-      <div className="relative w-full max-w-3xl aspect-video bg-black border-2 border-[#17A56B] rounded-lg flex items-center justify-center">
+      <div ref={containerRef} className="relative w-full max-w-3xl aspect-video bg-black border-2 border-[#17A56B] rounded-lg flex flex-col">
         {videoUrl ? (
-          <iframe
-            ref={iframeRef}
-            className="w-full h-full"
-            src={videoUrl}
-            frameBorder="0"
-            allowFullScreen
-            title={channelName}
-          ></iframe>
+          <iframe className="w-full h-full rounded-t-lg" src={videoUrl} frameBorder="0" allowFullScreen title={channel.name}></iframe>
         ) : (
-          <button
-            className="bg-[#17A56B] text-white font-semibold px-6 py-3 rounded-md hover:bg-green-600 transition"
-            onClick={handleWatchNow}
-          >
-            Watch Now
-          </button>
+          <div className="flex flex-1 items-center justify-center bg-black">
+            <button
+              className="bg-[#17A56B] text-white font-semibold px-6 py-3 rounded-md hover:bg-green-600 transition"
+              onClick={handleWatchNow}
+            >
+              Watch Now
+            </button>
+          </div>
         )}
-      </div>
 
-      {/* Show fullscreen button only when video is playing */}
-      {videoUrl && (
-        <button
-          className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition"
-          onClick={handleFullscreen}
-        >
-          Go Fullscreen
-        </button>
-      )}
+        <div className="absolute bottom-0 left-0 w-full bg-[#17A56B] flex items-center justify-between px-4 py-2 rounded-b-lg">
+          <div className="flex items-center gap-3">
+            <img src={channel.img} alt={channel.name} className="w-10 h-10 border-2 border-white rounded-md" />
+            <span className="text-white font-semibold text-lg">{channel.name}</span>
+          </div>
+          {isFullscreen ? <GoScreenNormal size={24} onClick={exitFullscreen} /> : <GoScreenFull size={24} onClick={handleFullscreen} />}
+        </div>
+      </div>
     </div>
   );
 };
 
 export default ChannelPage;
-

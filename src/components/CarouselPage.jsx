@@ -11,25 +11,25 @@ import PSL from "../assets/PSL.jpg";
 import ILT20 from "../assets/ILT20.jpg";
 
 const t20Leagues = [
-  { name: "BBL", src: BBL, url: "https://example.com/bbl" },
-  { name: "PSL", src: PSL, url: "https://example.com/psl" },
-  { name: "BPL", src: BPL, url: "https://example.com/bpl" },
-  { name: "SA20", src: SA, url: "https://example.com/sa20" },
-  { name: "ILT20", src: ILT20, url: "https://example.com/ilt20" },
+  { name: "BBL", src: BBL, slug: "bbl", url: "https://example.com/bbl" },
+  { name: "PSL", src: PSL, slug: "psl", url: "https://example.com/psl" },
+  { name: "BPL", src: BPL, slug: "bpl", url: "https://example.com/bpl" },
+  { name: "SA20", src: SA, slug: "sa20", url: "https://example.com/sa20" },
+  { name: "ILT20", src: ILT20, slug: "ilt20", url: "https://example.com/ilt20" },
 ];
 
 const footballLeagues = [
-  { name: "La Liga", src: "https://livematchzone.com/wp-content/uploads/2025/03/La-Liga-1024x597.webp", url: "https://example.com/laliga" },
-  { name: "EPL", src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp", url: "https://example.com/epl" },
-  { name: "UEFA Champions League", src: "https://livematchzone.com/wp-content/uploads/2025/03/Champion-League.webp", url: "https://example.com/ucl" },
-  { name: "Premier League", src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp", url: "https://example.com/ucl" },
+  { name: "La Liga", src: "https://livematchzone.com/wp-content/uploads/2025/03/La-Liga-1024x597.webp", slug: "la-liga", url: "https://example.com/laliga" },
+  { name: "EPL", src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp", slug: "epl", url: "https://example.com/epl" },
+  { name: "UEFA Champions League", src: "https://livematchzone.com/wp-content/uploads/2025/03/Champion-League.webp", slug: "ucl", url: "https://example.com/ucl" },
+  { name: "Premier League", src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp", slug: "premier-league", url: "https://example.com/ucl" },
 ];
 
 const CarouselPage = () => {
   const navigate = useNavigate();
 
-  const handleImageClick = (url, name) => {
-    navigate(`/video?url=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}`);
+  const handleImageClick = (slug) => {
+    navigate(`/league/${slug}`);
   };
 
   const sliderSettings = {
@@ -58,7 +58,7 @@ const CarouselPage = () => {
               src={league.src}
               alt={league.name}
               className="w-full rounded-lg cursor-pointer"
-              onClick={() => handleImageClick(league.url, league.name)}
+              onClick={() => handleImageClick(league.slug)}
             />
           </div>
         ))}
@@ -73,7 +73,7 @@ const CarouselPage = () => {
               src={league.src}
               alt={league.name}
               className="w-full rounded-lg cursor-pointer"
-              onClick={() => handleImageClick(league.url, league.name)}
+              onClick={() => handleImageClick(league.slug)}
             />
           </div>
         ))}

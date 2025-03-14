@@ -14,8 +14,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/video" element={<VideoPage />} />
-        <Route path="/channel" element={<ChannelPage />} />
+        <Route path="/league/:slug" element={<VideoPage />} />
+        <Route path="/channel/:slug" element={<ChannelPage />} />
       </Routes>
       <Footer/>
     </>
