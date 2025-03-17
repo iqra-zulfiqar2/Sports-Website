@@ -184,7 +184,7 @@ const Navbar = () => {
           <input
             type="text"
             placeholder="Search"
-            className="px-4 py-2 pr-10 rounded-full bg-gray-900 text-white focus:outline-none focus:ring-0 focus:border-none w-90 shadow-sm"
+            className="px-4 py-2 pr-10 rounded-full bg-gray-900 text-white focus:outline-none focus:ring-0 focus:border-none w-80 shadow-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -235,6 +235,13 @@ const Navbar = () => {
         >
           Home
         </Link>
+        <Link to="/live-scores" className="text-white font-semibold hover:text-[#17A56B] transition">
+          Live Scores
+        </Link> 
+        <Link to="/schedule" className="text-white font-semibold hover:text-[#17A56B] transition">
+          Schedule
+        </Link>
+
 
         {/* Football Dropdown */}
         <div

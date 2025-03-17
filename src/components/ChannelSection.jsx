@@ -1,5 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import tsports from "../assets/tsports.png"
+import Willow from "../assets/Willow.png";
+import gtv from "../assets/gtv.png";
+import foxsports from "../assets/foxsports.jpg"
 
 const channels = [
   { name: "A Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/A-Sports-HD.jpg" },
@@ -16,6 +20,10 @@ const channels = [
   { name: "TNT Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-1.jpg" },
   { name: "TNT Sports 2", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-2.jpg" },
   { name: "Sky Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg" },
+  { name: "T Sports", img: tsports },
+  { name: "Willow 2", img: Willow },
+  { name: "GTV", img: gtv },
+  { name: "Fox Sports", img: foxsports },
 ];
 
 // Function to generate slug

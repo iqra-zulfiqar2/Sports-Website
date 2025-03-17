@@ -1,23 +1,31 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { GoScreenFull, GoScreenNormal } from "react-icons/go";
+import tsports from "../assets/tsports.png";
+import Willow from "../assets/Willow.png";
+import gtv from "../assets/gtv.png";
+import foxsports from "../assets/foxsports.jpg"
 
 // Define channel data
 const channels = [
-  { name: "A Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/A-Sports-HD.jpg", stream: "https://example.com/a-sports-stream" },
+  { name: "A Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/A-Sports-HD.jpg", stream: "//stream.crichd.sc/update/asportshd.php" },
   { name: "TNT Sports 4", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4-2.jpg", stream: "https://example.com/tnt-sports-4-stream" },
   { name: "TNT Sports 3", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4.jpg", stream: "https://example.com/tnt-sports-3-stream" },
   { name: "Astro Cricket", img: "https://livematchzone.com/wp-content/uploads/2025/01/Astro-Cricket.jpg", stream: "https://example.com/astro-cricket-stream" },
-  { name: "Star Sports 3", img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg", stream: "https://example.com/star-sports-3-stream" },
+  { name: "Star Sports 3", img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg", stream: "//stream.crichd.sc/update/star2.php" },
   { name: "Star Sports 2", img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-2.jpg", stream: "https://example.com/star-sports-2-stream" },
-  { name: "Ten Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Ten-Sports.jpg", stream: "https://example.com/ten-sports-stream" },
-  { name: "Willow Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Willow-Cricket.jpg", stream: "https://example.com/willow-sports-stream" },
-  { name: "Star Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/Star-Sports-1.jpg", stream: "https://example.com/star-sports-1-stream" },
-  { name: "PTV Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/PTV-Sports.jpg", stream: "https://example.com/ptv-sports-stream" },
-  { name: "SuperSport", img: "https://livematchzone.com/wp-content/uploads/2025/01/SuperSport-Cricket.jpg", stream: "https://example.com/supersport-stream" },
+  { name: "Ten Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Ten-Sports.jpg", stream: "//stream.crichd.sc/update/tensp.php" },
+  { name: "Willow Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Willow-Cricket.jpg", stream: "//stream.crichd.vip/update/willowcricket.php" },
+  { name: "Star Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/Star-Sports-1.jpg", stream: "//stream.crichd.sc/update/star.php" },
+  { name: "PTV Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/PTV-Sports.jpg", stream: "//stream.crichd.vip/update/ptv.php" },
+  { name: "SuperSport", img: "https://livematchzone.com/wp-content/uploads/2025/01/SuperSport-Cricket.jpg", stream: "//stream.crichd.sc/update/sscricket.php" },
   { name: "TNT Sports 1", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-1.jpg", stream: "https://example.com/tnt-sports-1-stream" },
   { name: "TNT Sports 2", img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-2.jpg", stream: "https://example.com/tnt-sports-2-stream" },
-  { name: "Sky Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg", stream: "https://example.com/sky-sports-stream" },
+  { name: "Sky Sports", img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg", stream: "//stream.crichd.sc/update/skys2.php" },
+  { name: "T Sports", img: tsports, stream: "http://chanel.dekhaott.com/Tsportshd/embed.html" },
+  { name: "Willow 2", img: Willow, stream: "//stream.crichd.sc/update/willowextra.php" },
+  { name: "GTV", img: gtv, stream: "http://103.89.248.18:8082/1LIVE/embed.html?token=dfca69c3d4326ea1b69df1dfc5cb22563db6b290-6ddc9b8e3669189d8b68fd5a6de65199-1715367020-1715356220&amp;remote=no_check_ip" },
+  { name: "Fox Sports", img: foxsports, stream: "//stream.crichd.sc/update/fox501.php" },
 ];
 
 // Convert name to slug
@@ -69,7 +77,7 @@ const ChannelPage = () => {
 
       <div ref={containerRef} className="relative w-full max-w-3xl aspect-video bg-black border-2 border-[#17A56B] rounded-lg flex flex-col">
         {videoUrl ? (
-          <iframe className="w-full h-full rounded-t-lg" src={videoUrl} frameBorder="0" allowFullScreen title={channel.name}></iframe>
+          <iframe className="w-full h-full rounded-t-lg" src={videoUrl} frameBorder="0" allowFullScreen allow="encrypted-media" title={channel.name}></iframe>
         ) : (
           <div className="flex flex-1 items-center justify-center bg-black">
             <button
