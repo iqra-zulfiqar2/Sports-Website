@@ -36,7 +36,7 @@ const LiveScores = () => {
         {["Current Matches", "Current & Future Series", "Matches By Day", "Teams", "Series Archive"].map((tab) => (
           <button
             key={tab}
-            className={`px-4 py-2 text-sm font-semibold ${
+            className={`px-4 py-2 text-sm font-semibold cursor-pointer ${
               activeTab === tab ? "text-green-400 border-b-2 border-green-400" : "text-white"
             }`}
             onClick={() => setActiveTab(tab)}
@@ -69,7 +69,7 @@ const LiveScores = () => {
         {["All", "International", "Domestic", "Women"].map((cat) => (
           <button
             key={cat}
-            className={`px-4 py-2 text-sm font-medium rounded-full ${
+            className={`px-4 py-2 text-sm font-medium rounded-full cursor-pointer ${
               category === cat ? "bg-green-500 text-white" : "bg-gray-700 text-gray-300"
             }`}
             onClick={() => setCategory(cat)}
