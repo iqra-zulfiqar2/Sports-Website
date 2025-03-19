@@ -1,18 +1,69 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import CarouselPage from "./CarouselPage.jsx";
 import ChannelSection from "./ChannelSection.jsx";
+import logo from "../assets/logo.png";
+
 
 const Home = () => {
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    // Show the notification when the page loads
+    setTimeout(() => {
+      setShowNotification(true);
+    }, 1000); // Delay to make it feel natural
+  }, []);
+
+  const handleClose = () => {
+    setShowNotification(false);
+  };
+
   return (
     <>
+    {/* Push Notification - Floating Box */}
+{showNotification && (
+  <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-b-lg shadow-lg text-center max-w-sm z-50 border border-gray-300 w-full sm:w-auto">
+    {/* Centered and Enlarged Logo */}
+    <img
+      src={logo}
+      alt="Logo"
+      className="h-12 ml-32 mx-auto mb-3"
+    />
+    <h2 className="text-sm text-gray-600 font-bold">
+      Don't miss out on Live Matches!
+    </h2>
+
+    <p className="text-xs text-gray-600 mt-1">
+      Let Live Match Zone keep you updated & entertained with AWESOME content!
+    </p>
+
+    <div className="flex justify-center gap-3 mt-3">
+      <button
+        onClick={handleClose}
+        className="px-3 py-1 border rounded text-gray-700 text-xs hover:bg-gray-200 transition"
+      >
+        No
+      </button>
+      <button
+        onClick={handleClose}
+        className="px-3 py-1 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+)}
+
+
       <CarouselPage />
-      <ChannelSection/>
+      <ChannelSection />
 
       {/* Live Cricket Section */}
-      <section className="bg-black text-white mr-58 py-12 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
-        <h3 className="text-2xl font-bold flex items-center gap-2 mb-3">
-        <span>🏏</span> Live Cricket Matches – Watch Anytime, Anywhere!
+      <section className="w-full bg-black text-white py-12 px-1">
+        <div className="w-full px-1">
+          <h3 className="text-2xl font-bold flex items-center gap-2 mb-3">
+            <span>🏏</span> Live Cricket Matches – Watch Anytime, Anywhere!
           </h3>
           <p className="text-lg text-gray-300 mb-6">
             Welcome to Live Match Zone, the ultimate destination for live cricket streaming! Whether it’s international clashes, domestic leagues, or thrilling T20 tournaments, we bring you high-quality live streams so you never miss a moment of the action.
@@ -21,7 +72,7 @@ const Home = () => {
           <h3 className="text-2xl font-bold flex items-center gap-2 mb-3">
             <span>📺</span> Watch Live Cricket Online
           </h3>
-          <ul className="text-lg text-gray-300 space-y-3">
+          <ul className="text-lg text-gray-300 space-y-1">
             <li>🔥 <strong>HD Streaming</strong> – Enjoy smooth and buffer-free streaming in high definition.</li>
             <li>⚡ <strong>Real-Time Updates</strong> – Live scores, ball-by-ball commentary, and match stats.</li>
             <li>🏆 <strong>All Major Tournaments</strong> – ICC World Cup, IPL, PSL, BBL, The Ashes, and more!</li>
@@ -38,8 +89,8 @@ const Home = () => {
       </section>
 
       {/* Why Choose Live Match Zone Section */}
-      <section className="bg-black text-white mr-58 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
+      <section className="w-full bg-black text-white px-1">
+        <div className="w-full px-1">
           <h3 className="text-3xl font-bold flex items-center gap-2 mb-4">
             <span>🚀</span> Why Choose Live Match Zone?
           </h3>
@@ -59,4 +110,3 @@ const Home = () => {
 };
 
 export default Home;
-

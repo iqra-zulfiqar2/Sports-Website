@@ -11,7 +11,6 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  // Function to generate slug from name
   const generateSlug = (name) => {
     return name
       .toLowerCase()
@@ -51,7 +50,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // League Items
   const leagueItems = [
     {
       name: "UEFA Champions League",
@@ -90,7 +88,6 @@ const Navbar = () => {
     },
   ];
 
-  // Channel Items
   const channelItems = [
     {
       name: "A Sports",
@@ -159,12 +156,10 @@ const Navbar = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [searchResults, activeIndex]);
 
-  // UPDATED FUNCTION: Determines if the search result is a league or a channel
   const handleSearchSelect = (item) => {
     setSearchTerm("");
     setSearchResults([]);
 
-    // Check if it's a league or a channel
     if (leagueItems.some((league) => league.name === item.name)) {
       navigate(`/league/${generateSlug(item.name)}`);
     } else if (channelItems.some((channel) => channel.name === item.name)) {
@@ -174,77 +169,33 @@ const Navbar = () => {
 
   return (
     <nav className="bg-black text-white p-4 flex items-center justify-between relative z-50 shadow-md">
-      <Link to="/">
-        <img src={logo} alt="Logo" className="h-10 mr-4 ml-8 cursor-pointer" />
-      </Link>
-
-      {/* Search Bar */}
-      <div className="flex-1 flex justify-center">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search"
-            className="px-4 py-2 pr-10 rounded-full bg-gray-900 text-white focus:outline-none focus:ring-0 focus:border-none w-80 shadow-sm"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+      <div className="flex items-center space-x-6">
+        <Link to="/">
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-10 mr-4 ml-2 cursor-pointer"
           />
+        </Link>
 
-          <span className="absolute inset-y-0 right-3 flex items-center">
-            <IoIosSearch className="text-gray-400 text-xl" />
-          </span>
-        </div>
-
-        {/* Categorized Search Dropdown */}
-        {searchResults.some((group) => group.items.length > 0) && (
-          <div className="absolute top-full w-80 bg-[#1D1E22] text-white shadow-lg rounded-md z-50 max-h-60 overflow-y-auto border border-gray-700">
-            {searchResults.map((group, groupIndex) =>
-              group.items.length > 0 ? (
-                <div key={groupIndex}>
-                  <div className="bg-gray-700 px-4 py-1 text-sm font-semibold">
-                    {group.category}
-                  </div>
-                  {group.items.map((item, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleSearchSelect(item)}
-                      className={`flex items-center px-4 py-2 cursor-pointer transition ${
-                        activeIndex === index
-                          ? "bg-[#2A2B2F]"
-                          : "hover:bg-gray-800"
-                      }`}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="h-8 w-8 mr-3 rounded-full"
-                      />
-                      <span>{item.name}</span>
-                    </div>
-                  ))}
-                </div>
-              ) : null
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="flex space-x-6 mr-6">
-        <Link
-          to="/"
-          className="text-[#17A56B] font-semibold hover:text-white transition"
-        >
+        <Link to="/" className="text-[#17A56B] font-semibold hover:text-white">
           Home
         </Link>
-        <Link to="/live-scores" className="text-white font-semibold hover:text-[#17A56B] transition">
+        <Link
+          to="/live-scores"
+          className="text-white font-semibold hover:text-[#17A56B]"
+        >
           Live Scores
-        </Link> 
-        <Link to="/schedule" className="text-white font-semibold hover:text-[#17A56B] transition">
+        </Link>
+        <Link
+          to="/schedule"
+          className="text-white font-semibold hover:text-[#17A56B]"
+        >
           Schedule
         </Link>
 
-
-        {/* Football Dropdown */}
-        <div
+           {/* Football Dropdown */}
+           <div
           className="relative dropdown"
           tabIndex="0"
           onMouseEnter={() => setActiveDropdown("football")}
@@ -296,9 +247,8 @@ const Navbar = () => {
             </div>
           )}
         </div>
-
-        {/* Channels Dropdown */}
-        <div
+                {/* Channels Dropdown */}
+                <div
           className="relative dropdown"
           tabIndex="0"
           onMouseEnter={() => setActiveDropdown("channels")}
@@ -323,6 +273,51 @@ const Navbar = () => {
             </div>
           )}
         </div>
+      </div>
+           
+
+
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search"
+          className="px-4 py-2 pr-10 rounded-full bg-gray-900 text-white focus:outline-none focus:ring-0 focus:border-none w-80 shadow-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <span className="absolute inset-y-0 right-3 flex items-center">
+          <IoIosSearch className="text-gray-400 text-xl" />
+        </span>
+
+        {searchResults.some((group) => group.items.length > 0) && (
+          <div className="absolute top-full w-80 bg-[#1D1E22] text-white shadow-lg rounded-md z-50 max-h-60 overflow-y-auto border border-gray-700">
+            {searchResults.map((group, groupIndex) =>
+              group.items.length > 0 ? (
+                <div key={groupIndex}>
+                  <div className="bg-gray-700 px-4 py-1 text-sm font-semibold">
+                    {group.category}
+                  </div>
+                  {group.items.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleSearchSelect(item)}
+                      className={`flex items-center px-4 py-2 cursor-pointer transition ${
+                        activeIndex === index ? "bg-[#2A2B2F]" : "hover:bg-gray-800"
+                      }`}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-8 w-8 mr-3 rounded-full"
+                      />
+                      <span>{item.name}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -144,36 +144,34 @@ const CarouselPage = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-6xl mx-auto">
-        <h2 className="text-3xl text-white font-bold mb-4">T20 League</h2>
-        <Slider {...sliderSettings}>
-          {t20Leagues.map((league, index) => (
-            <div key={index} className="px-2">
-              <img
-                src={league.src}
-                alt={league.name}
-                className="w-full rounded-lg cursor-pointer"
-                onClick={() => navigate(`/league/${league.slug}`)}
-              />
-            </div>
-          ))}
-        </Slider>
-
-        <h2 className="text-3xl text-white font-bold mt-10 mb-4">
-          Football League
-        </h2>
-        <Slider {...sliderSettings}>
-          {footballLeagues.map((league, index) => (
-            <div key={index} className="px-2">
-              <img
-                src={league.src}
-                alt={league.name}
-                className="w-full rounded-lg cursor-pointer"
-                onClick={() => navigate(`/league/${league.slug}`)}
-              />
-            </div>
-          ))}
-        </Slider>
+      <div className="w-full px-1">  
+        <h2 className="text-3xl text-white font-bold mb-4">T20 League</h2>  
+        <Slider {...sliderSettings} className="w-full">  
+          {t20Leagues.map((league, index) => (  
+            <div key={index} className="px-1">  
+              <img  
+                src={league.src}  
+                alt={league.name}  
+                className="w-full rounded-lg cursor-pointer"  
+                onClick={() => navigate(`/league/${league.slug}`)}  
+              />  
+            </div>  
+          ))}  
+        </Slider>  
+  
+        <h2 className="text-3xl text-white font-bold mt-10 mb-4">Football League</h2>  
+        <Slider {...sliderSettings} className="w-full">  
+          {footballLeagues.map((league, index) => (  
+            <div key={index} className="px-1">  
+              <img  
+                src={league.src}  
+                alt={league.name}  
+                className="w-full rounded-lg cursor-pointer"  
+                onClick={() => navigate(`/league/${league.slug}`)}  
+              />  
+            </div>  
+          ))}  
+        </Slider>  
       </div>
     </div>
   );
