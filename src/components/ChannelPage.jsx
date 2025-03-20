@@ -10,6 +10,10 @@ import tsports from "../assets/tsports.png";
 import Willow from "../assets/Willow.png";
 import gtv from "../assets/gtv.png";
 import foxsports from "../assets/foxsports.jpg";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 // Define channel data
 const channels = [
@@ -205,11 +209,23 @@ const ChannelPage = () => {
       <div className="text-white text-center mt-10">Channel not found!</div>
     );
   }
-  const currentURL = window.location.href;
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(currentURL);
-    alert("Link copied to clipboard!");
-  };
+  
+    const currentURL = window.location.href;
+    const copyToClipboard = () => {
+      navigator.clipboard.writeText(currentURL)
+        .then(() => {
+          toast.success("Copied to clipboard!", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        })
+        .catch((error) => console.error("Failed to copy:", error));
+    };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
@@ -306,7 +322,8 @@ const ChannelPage = () => {
           </div>
         </div>
       </div>
-
+      
+      <ToastContainer />
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
           <div className="flex justify-between items-center mb-4">

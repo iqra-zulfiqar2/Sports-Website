@@ -26,8 +26,12 @@ const International = () => {
         console.log("API Raw Response:", data);
 
         if (data?.matchScheduleMap?.length > 0) {
-          setMatches(data.matchScheduleMap);
-          console.log("Processed Match Data:", data.matchScheduleMap);
+          const filteredMatches = data.matchScheduleMap
+            .filter((item) => item.scheduleAdWrapper)
+            .map((item) => item.scheduleAdWrapper);
+
+          setMatches(filteredMatches);
+          console.log("Filtered Match Data:", filteredMatches);
         } else {
           console.log("No matches found in response");
           setMatches([]);
@@ -41,9 +45,16 @@ const International = () => {
     fetchData();
   }, []);
 
+  // Convert timestamp to readable date-time format
+  const formatTime = (timestamp) => {
+    if (!timestamp) return "Time Unavailable";
+    const date = new Date(parseInt(timestamp));
+    return date.toUTCString(); // Converts to a readable UTC format
+  };
+
   return (
     <div className="bg-gray-850 p-4 rounded-lg shadow-lg">
-      <h2 className="text-white text-xl font-bold mb-4">International Cricket Schedule</h2>
+      <h1 className="text-white text-xl font-bold mb-4">Cricket Schedule</h1>
       {matches.length > 0 ? (
         matches.map((match, index) => (
           <div key={index} className="mb-6">
@@ -54,31 +65,33 @@ const International = () => {
 
             {/* Match Details */}
             <div className="border border-gray-700 divide-y divide-gray-700">
-              {match?.matchScheduleList?.map((m, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 grid grid-cols-3 gap-4 items-center bg-gray-900 hover:bg-gray-800 transition"
-                >
-                  {/* Left Column - Series Name */}
-                  <div className="text-gray-300 font-semibold">
-                    {m?.seriesName || "Unknown Series"}
-                  </div>
+              {match?.matchScheduleList?.map((schedule, idx) => (
+                <div key={idx} className="p-4 bg-gray-900 hover:bg-gray-800 transition">
+                  <div className="text-gray-300 font-semibold text-lg">{schedule?.seriesName || "Unknown Series"}</div>
+                  
+                  {/* Loop through matchInfo inside matchScheduleList */}
+                  {schedule?.matchInfo?.map((m, i) => (
+                    <div key={i} className="grid grid-cols-3 gap-4 items-center mt-2">
+                      {/* Left Column - Series Name */}
+                      <div className="text-gray-400">{m?.matchDesc || "Match Info"}</div>
 
-                  {/* Middle Column - Match & Venue */}
-                  <div>
-                    <div className="text-lg font-semibold text-white">{m?.matchDesc || "Match Info"}</div>
-                    <div className="text-sm text-gray-400">{m?.venueInfo?.ground || "Unknown Venue"}</div>
-                  </div>
+                      {/* Middle Column - Match & Venue */}
+                      <div>
+                        <div className="text-lg font-semibold text-white">{m?.team1?.teamName} vs {m?.team2?.teamName}</div>
+                        <div className="text-sm text-gray-400">{m?.venueInfo?.ground || "Unknown Venue"}</div>
+                      </div>
 
-                  {/* Right Column - Match Timing */}
-                  <div className="text-right">
-                    <div className="font-bold text-lg text-white">
-                      {m?.startTime || "TBA"}
+                      {/* Right Column - Match Timing */}
+                      <div className="text-right">
+                        <div className="font-bold text-lg text-white">
+                          {formatTime(m?.startDate)}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {m?.venueInfo?.timezone || "Timezone Unavailable"}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-400">
-                      {m?.startTimeGMT ? `${m.startTimeGMT} GMT` : "Time Unavailable"}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               ))}
             </div>

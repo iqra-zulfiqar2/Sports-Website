@@ -6,6 +6,11 @@ import { CiShare2 } from "react-icons/ci";
 import { FaFacebook, FaXTwitter, FaWhatsapp, FaReddit } from "react-icons/fa6";
 import { Copy } from "lucide-react";
 import { FaEye } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+
 
 // League data with proper slug mapping
 const leaguesData = {
@@ -137,10 +142,20 @@ const LeaguePage = () => {
 
   const currentURL = window.location.href;
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(currentURL);
-    alert("Link copied to clipboard!");
+    navigator.clipboard.writeText(currentURL)
+      .then(() => {
+        toast.success("Copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      })
+      .catch((error) => console.error("Failed to copy:", error));
   };
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
@@ -239,59 +254,32 @@ const LeaguePage = () => {
           </div>
         </div>
       </div>
-
+      <ToastContainer />
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-white text-lg font-bold">Share this game</h3>
-            <button
-              onClick={closeModal}
-              className="text-gray-400 hover:text-white"
-            >
+            <button onClick={closeModal} className="text-gray-400 hover:text-white">
               ✖
             </button>
           </div>
           <div className="flex gap-3 mb-4 justify-center">
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${currentURL}`}
-              target="_blank"
-              className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10"
-            >
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${currentURL}`} target="_blank" className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10">
               <FaFacebook size={20} className="text-white" />
             </a>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${currentURL}`}
-              target="_blank"
-              className="bg-black p-2 rounded flex items-center justify-center w-10 h-10"
-            >
+            <a href={`https://twitter.com/intent/tweet?url=${currentURL}`} target="_blank" className="bg-black p-2 rounded flex items-center justify-center w-10 h-10">
               <FaXTwitter size={20} className="text-white" />
             </a>
-            <a
-              href={`https://api.whatsapp.com/send?text=${currentURL}`}
-              target="_blank"
-              className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10"
-            >
+            <a href={`https://api.whatsapp.com/send?text=${currentURL}`} target="_blank" className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10">
               <FaWhatsapp size={20} className="text-white" />
             </a>
-            <a
-              href={`https://www.reddit.com/submit?url=${currentURL}`}
-              target="_blank"
-              className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10"
-            >
+            <a href={`https://www.reddit.com/submit?url=${currentURL}`} target="_blank" className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10">
               <FaReddit size={20} className="text-white" />
             </a>
           </div>
           <div className="flex items-center bg-gray-700 rounded overflow-hidden">
-            <input
-              type="text"
-              value={currentURL}
-              readOnly
-              className="bg-gray-700 text-white p-2 flex-1"
-            />
-            <button
-              onClick={copyToClipboard}
-              className="bg-blue-600 p-2 hover:bg-blue-500"
-            >
+            <input type="text" value={currentURL} readOnly className="bg-gray-700 text-white p-2 flex-1" />
+            <button onClick={copyToClipboard} className="bg-blue-600 p-2 hover:bg-blue-500">
               <Copy size={16} className="text-white" />
             </button>
           </div>

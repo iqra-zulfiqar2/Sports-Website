@@ -12,7 +12,6 @@ import Women from "./components/ScheduleCategories/Women.jsx";
 import League from "./components/ScheduleCategories/League.jsx";
 import International from "./components/ScheduleCategories/International.jsx";
 import Domestic from "./components/ScheduleCategories/Domestic.jsx";
-import AllMatches from "./components/ScheduleCategories/AllMatches.jsx";
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
         <Route path="/schedule/domestic-others" element={<Domestic />} />
         <Route path="/schedule/t20-leagues" element={<League />} />
         <Route path="/schedule/women" element={<Women />} />
-        <Route path="/schedule/all-matches" element={<AllMatches />} />
       </Routes>
       <Footer />
     </>

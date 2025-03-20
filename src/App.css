@@ -3,4 +3,5 @@ html {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  scroll-behavior: smooth !important;
 }

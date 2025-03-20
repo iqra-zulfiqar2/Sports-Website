@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { IoIosSearch } from "react-icons/io";
+import tsports from "../assets/tsports.png";
+import Willow from "../assets/Willow.png";
+import gtv from "../assets/gtv.png";
+import foxsports from "../assets/foxsports.jpg";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -35,6 +39,10 @@ const Navbar = () => {
     "PTV Sports",
     "SuperSport",
     "Sky Sports",
+    "T Sports",
+    "Willow 2",
+    "GTV",
+    "Fox Sports",
   ];
 
   useEffect(() => {
@@ -113,6 +121,32 @@ const Navbar = () => {
       name: "Star Sports 3",
       image:
         "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg",
+    },
+    {
+      name: "Sky Sports",
+      image:
+        "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg",
+    },
+    {
+      name: "SuperSport",
+      image:
+        "https://livematchzone.com/wp-content/uploads/2025/01/SuperSport-Cricket.jpg",
+    },
+    {
+      name: "T Sports",
+      image: tsports,
+    },
+    {
+      name: "Willow 2",
+      image: Willow,
+    },
+    {
+      name: "GTV",
+      image: gtv,
+    },
+    {
+      name: "Fox Sports",
+      image: foxsports,
     },
   ];
 

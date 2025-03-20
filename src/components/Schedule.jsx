@@ -6,10 +6,7 @@ const categories = [
   { name: "Domestic & Others", path: "domestic-others" },
   { name: "T20 Leagues", path: "t20-leagues" },
   { name: "Women", path: "women" },
-  { name: "All Matches", path: "all-matches" },
 ];
-
-
 
 const Schedule = () => {
   const navigate = useNavigate();
