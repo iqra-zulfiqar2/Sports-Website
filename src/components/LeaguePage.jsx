@@ -159,34 +159,48 @@ const LeaguePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      <h1 className="text-3xl font-bold mt-2 mb-4">
-        Watch Free Live {league.name} Online
-      </h1>
-      <div
-        ref={videoWrapperRef}
-        className="relative w-full max-w-3xl h-[400px] border-2 border-[#17A56B] rounded-lg bg-black flex flex-col overflow-hidden"
-      >
-        {/* Transparent Black Shadow */}
-        <div className="absolute inset-0 bg-black opacity-40"></div>
+    <h1 className="text-3xl font-bold mt-6 mb-4">
+      Watch Free Live {league.name} Online
+    </h1>
 
-        {!isPlaying ? (
-          <div className="flex items-center justify-center flex-1 bg-black">
-            <button
-              className="bg-[#17A56B] px-6 py-3 rounded-md text-white font-semibold z-10"
-              onClick={() => setIsPlaying(true)}
-            >
-              Watch Now
-            </button>
-          </div>
-        ) : (
-          <iframe
-            className="w-full h-full rounded-t-lg bg-black relative z-10"
-            src="https://example.com/livestream"
-            frameBorder="0"
-            allowFullScreen
-            title="Live Stream"
-          ></iframe>
-        )}
+    {/* Marquee Message */}
+    <div className="w-full max-w-4xl">
+      <marquee
+        className="text-[#17A56B] font-bold text-lg"
+        behavior="scroll"
+        direction="left"
+        scrollamount="5"
+      >
+        Click "Unmute Stream" Button to Get Voice
+      </marquee>
+    </div>
+
+    {/* Video Container */}
+    <div
+      ref={videoWrapperRef}
+      className="relative w-full max-w-4xl aspect-video bg-black rounded-lg"
+    >
+      {!isPlaying ? (
+        <div className="flex items-center justify-center bg-black h-full">
+          <button
+            className="bg-[#17A56B] text-white px-6 py-3 rounded-md hover:bg-green-600 transition"
+            onClick={() => setIsPlaying(true)}
+          >
+            Watch Now
+          </button>
+        </div>
+      ) : (
+        <iframe
+          className="w-full h-full rounded-t-lg"
+          src={league.url}
+          frameBorder="0"
+          allowFullScreen
+          title="Live Stream"
+        ></iframe>
+      )}
+
+
+
 
         {/* Live Indicator & Viewers Count */}
         {isPlaying && (

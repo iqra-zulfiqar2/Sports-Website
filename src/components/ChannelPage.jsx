@@ -85,7 +85,7 @@ const channels = [
   {
     name: "Sky Sports",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg",
-    stream: "//stream.crichd.sc/update/skys2.php",
+    stream: "//stream.crichd.sc/update/star.php",
   },
   {
     name: "T Sports",
@@ -233,9 +233,21 @@ const ChannelPage = () => {
         Watch Free Live {channel.name} Online
       </h1>
 
+      {/* Marquee Message */}
+      <div className="w-full max-w-4xl">
+        <marquee
+          className="text-[#17A56B] font-bold text-lg"
+          behavior="scroll"
+          direction="left"
+          scrollamount="5"
+        >
+          Click "Unmute Stream" Button to Get Voice
+        </marquee>
+      </div>
+
       <div
         ref={containerRef}
-        className="relative w-full max-w-3xl aspect-video bg-black border-2 border-[#17A56B] rounded-lg"
+        className="relative w-full max-w-4xl aspect-video bg-black rounded-lg"
       >
         {videoUrl ? (
           <iframe
@@ -322,7 +334,7 @@ const ChannelPage = () => {
           </div>
         </div>
       </div>
-      
+
       <ToastContainer />
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
