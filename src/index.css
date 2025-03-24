@@ -28,7 +28,7 @@ body {
 header {
   max-width: 1280px;
   min-width: 320px;
-  margin: 0 auto;cd
+  margin: 0 auto;
   width: 100%;
   left: 50%;
   transform: translateX(-50%);
@@ -51,7 +51,7 @@ header {
     background-color: #ffffff;
   }
 
-  button {
-    // background-color: #f9f9f9;
-  }
+  /* button {
+    background-color: #f9f9f9;
+  } */
 }
