@@ -8,7 +8,6 @@ const PWAInstall = () => {
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault(); // Prevent automatic prompt
       setDeferredPrompt(event);
-      setShowPrompt(true); // Show custom install button
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -28,14 +27,13 @@ const PWAInstall = () => {
           console.log("PWA installation dismissed");
         }
         setDeferredPrompt(null);
-        setShowPrompt(false);
       });
     }
   };
 
   return (
     <>
-      {showPrompt && (
+      {deferredPrompt && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-gray-800 p-5 rounded-lg shadow-lg text-white text-center">
             <h2 className="text-lg font-bold mb-4">Install Live Match Zone</h2>
@@ -45,7 +43,7 @@ const PWAInstall = () => {
               Install
             </button>
             <button 
-              onClick={() => setShowPrompt(false)} 
+              onClick={() => setDeferredPrompt(null)} 
               className="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-lg text-white ml-2">
               Cancel
             </button>
@@ -55,6 +53,5 @@ const PWAInstall = () => {
     </>
   );
 };
-
 
 export default PWAInstall;

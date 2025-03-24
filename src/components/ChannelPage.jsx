@@ -35,7 +35,7 @@ const channels = [
   {
     name: "Astro Cricket",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/Astro-Cricket.jpg",
-    stream: "https://example.com/astro-cricket-stream",
+    stream: "//stream.crichd.sc/update/fox501.php",
   },
   {
     name: "Star Sports 3",
@@ -171,6 +171,16 @@ const ChannelPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+   // Detect fullscreen change
+   useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
   const formatCount = (num) => {
     if (num >= 1e9) return Math.floor(num / 1e9) + "B";
     if (num >= 1e6) return Math.floor(num / 1e6) + "M";
@@ -226,6 +236,8 @@ const ChannelPage = () => {
         })
         .catch((error) => console.error("Failed to copy:", error));
     };
+
+    
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">

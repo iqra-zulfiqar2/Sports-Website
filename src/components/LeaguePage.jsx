@@ -157,6 +157,16 @@ const LeaguePage = () => {
       .catch((error) => console.error("Failed to copy:", error));
   };
 
+    // Detect fullscreen change
+    useEffect(() => {
+      const handleFullscreenChange = () => {
+        setIsFullscreen(!!document.fullscreenElement);
+      };
+  
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
     <h1 className="text-3xl font-bold mt-6 mb-4">
@@ -175,32 +185,29 @@ const LeaguePage = () => {
       </marquee>
     </div>
 
-    {/* Video Container */}
-    <div
-      ref={videoWrapperRef}
-      className="relative w-full max-w-4xl aspect-video bg-black rounded-lg"
-    >
-      {!isPlaying ? (
-        <div className="flex items-center justify-center bg-black h-full">
-          <button
-            className="bg-[#17A56B] text-white px-6 py-3 rounded-md hover:bg-green-600 transition"
-            onClick={() => setIsPlaying(true)}
-          >
-            Watch Now
-          </button>
-        </div>
-      ) : (
-        <iframe
-          className="w-full h-full rounded-t-lg"
-          src={league.url}
-          frameBorder="0"
-          allowFullScreen
-          title="Live Stream"
-        ></iframe>
-      )}
-
-
-
+   {/* Video Wrapper */}
+   <div
+        ref={videoWrapperRef}
+        className="relative w-full max-w-4xl aspect-video bg-black rounded-lg overflow-hidden"
+      >
+        {!isPlaying ? (
+          <div className="flex items-center justify-center h-full bg-black">
+            <button
+              className="bg-[#17A56B] text-white px-6 py-3 rounded-md hover:bg-green-600 transition"
+              onClick={() => setIsPlaying(true)}
+            >
+              Watch Now
+            </button>
+          </div>
+        ) : (
+          <iframe
+            className="w-full h-full rounded-t-lg"
+            src={league.url}
+            frameBorder="0"
+            allowFullScreen
+            title="Live Stream"
+          ></iframe>
+        )}
 
         {/* Live Indicator & Viewers Count */}
         {isPlaying && (
@@ -210,14 +217,18 @@ const LeaguePage = () => {
             </div>
             <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
               <FaEye />
-              {formatCount(viewerCount)}
+              {league.viewerCount}
             </div>
           </div>
         )}
 
-        {/* Control Bar Always Visible */}
-        <div className="absolute bottom-0 left-0 w-full bg-[#17A56B] flex items-center justify-between px-4 py-2 rounded-b-lg z-20">
-          <div className="flex items-center gap-3">
+        {/* Control Bar (Adjusts for Fullscreen) */}
+        <div
+          className={`${
+            isFullscreen ? "fixed bottom-0 left-0 w-full z-50" : "absolute bottom-0 left-0 w-full"
+          } bg-[#17A56B] flex items-center justify-between px-4 py-2`}
+        >
+         <div className="flex items-center gap-3">
             <img
               src={league.src}
               alt={league.name}
@@ -268,6 +279,8 @@ const LeaguePage = () => {
           </div>
         </div>
       </div>
+
+
       <ToastContainer />
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
