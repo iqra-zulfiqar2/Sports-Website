@@ -9,32 +9,13 @@ const Home = () => {
 
   useEffect(() => {
     setShowPopup(true); // Show the pop-up when page loads
-
-    // Register service worker
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-          console.log("Service Worker Registered:", registration);
-        })
-        .catch((error) => {
-          console.error("Service Worker Registration Failed:", error);
-        });
-    }
   }, []);
 
-  // Function to trigger push notification
-  const sendLiveMatchNotification = () => {
-    if (navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage("push");
-    }
-  };
+
 
   return (
     <>
-      {/* PWA Install Pop-up */}
-      <PWAInstall />
-
+    
       {/* WhatsApp Pop-up */}
       {showPopup && <WhatsAppPopup onClose={() => setShowPopup(false)} />}
 
@@ -83,14 +64,6 @@ const Home = () => {
             expert opinions, and post-match analysis for all the insights you
             need.
           </p>
-
-          {/* Button to Test Push Notification */}
-          <button
-            onClick={sendLiveMatchNotification}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            🔔 Test Live Match Notification
-          </button>
         </div>
       </section>
     </>
