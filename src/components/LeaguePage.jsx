@@ -17,32 +17,32 @@ const leaguesData = {
   psl: {
     name: "PSL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-Super-League.webp",
-    url: "https://example.com/psl",
+    url: "https://tamashalive.github.io/ten-sports.html",
   },
   bpl: {
     name: "BPL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/BPL-League.webp",
-    url: "https://example.com/bpl",
+    url: "https://tamashalive.github.io/star-sports-hindi.html",
   },
   ipl: {
     name: "IPL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
-    url: "https://example.com/ipl",
+    url: "https://tamashalive.github.io/willow-cricket.html",
   },
   "pakistan-vs-new-zealand": {
     name: "PAK VS NZ",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-vs-New-Zealand-1.webp",
-    url: "https://example.com/pakistan-vs-new-zealand",
+    url: "https://tamashalive.github.io/sony-sports-ten-5.html",
   },
   ilt20: {
     name: "ILT20",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/ILT20-League.webp",
-    url: "https://example.com/ilt20",
+    url: "https://tamashalive.github.io/star-sports-hindi.html",
   },
   "la-liga": {
     name: "La Liga",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/La-Liga-1024x597.webp",
-    url: "https://example.com/laliga",
+    url: "https://tamashalive.github.io/star-sports-hindi.html",
   },
   epl: {
     name: "EPL",
@@ -52,12 +52,12 @@ const leaguesData = {
   "premier-league": {
     name: "Premier League",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp",
-    url: "https://example.com/premier-league",
+    url: "https://livematchzone.github.io/a-sports-hd.html",
   },
   "uefa-champions-league": {
     name: "UEFA Champions League",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/Champion-League.webp",
-    url: "https://example.com/uefa-champions-league",
+    url: "https://tamashalive.github.io/star-sports-hindi.html",
   },
 };
 
@@ -209,18 +209,18 @@ const LeaguePage = () => {
           ></iframe>
         )}
 
-        {/* Live Indicator & Viewers Count */}
-        {isPlaying && (
-          <div className="absolute top-3 right-3 flex items-center space-x-2 z-20">
-            <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-              LIVE
-            </div>
-            <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
-              <FaEye />
-              {league.viewerCount}
-            </div>
-          </div>
-        )}
+       {/* Live Indicator & Viewers Count */}
+{isPlaying && (
+  <div className="absolute top-3 right-3 flex items-center space-x-2 z-20">
+    <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+      LIVE
+    </div>
+    <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
+      <FaEye />
+      {formatCount(viewerCount)} {/* Updated to use viewerCount */}
+    </div>
+  </div>
+)}
 
         {/* Control Bar (Adjusts for Fullscreen) */}
         <div

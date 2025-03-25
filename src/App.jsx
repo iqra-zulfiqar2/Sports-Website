@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar.jsx";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home.jsx";
 import LeaguePage from "./components/LeaguePage.jsx";
 import ChannelPage from "./components/ChannelPage.jsx";
@@ -12,8 +12,19 @@ import Women from "./components/ScheduleCategories/Women.jsx";
 import League from "./components/ScheduleCategories/League.jsx";
 import International from "./components/ScheduleCategories/International.jsx";
 import Domestic from "./components/ScheduleCategories/Domestic.jsx";
+import { generateToken, messaging } from "./notifications/firebase.js";
+import { onMessage } from "firebase/messaging";
+
 
 function App() {
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      console.log(payload);
+    })
+  }, []);
+
+
   return (
     <>
       <Navbar />
@@ -21,7 +32,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
         <Route path="/channel/:slug" element={<ChannelPage />} />
-        <Route path="/live-scores" element={<LiveScores />} />
+        <Route path="/live-scores/:tabSlug" element={<LiveScores />} />
+        <Route path="/live-scores" element={<Navigate to="/live-scores/live-matches" replace />} /> {/* Default Redirect */}
+        <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />} />
+
         <Route path="/schedule" element={<Schedule />} />
 
         <Route path="/schedule/international" element={<International />} />

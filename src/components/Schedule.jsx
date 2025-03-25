@@ -13,7 +13,6 @@ const categories = [
   { name: "Women", key: "women", component: <Women/>},
 ];
 
-
 const Schedule = () => {
   const navigate = useNavigate();
   const { category } = useParams(); 
@@ -53,3 +52,4 @@ const Schedule = () => {
 };
 
 export default Schedule;
+

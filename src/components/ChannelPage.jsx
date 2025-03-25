@@ -25,12 +25,12 @@ const channels = [
   {
     name: "TNT Sports 4",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4-2.jpg",
-    stream: "https://example.com/tnt-sports-4-stream",
+    stream: "https://tamashalive.github.io/tnt-sports-4.html",
   },
   {
     name: "TNT Sports 3",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-4.jpg",
-    stream: "https://example.com/tnt-sports-3-stream",
+    stream: "https://tamashalive.github.io/tnt-sports-3.html",
   },
   {
     name: "Astro Cricket",
@@ -40,12 +40,12 @@ const channels = [
   {
     name: "Star Sports 3",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg",
-    stream: "//stream.crichd.sc/update/star2.php",
+    stream: "https://tamashalive.github.io/star-sports-hindi.html",
   },
   {
     name: "Star Sports 2",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-2.jpg",
-    stream: "https://example.com/star-sports-2-stream",
+    stream: "https://tamashalive.github.io/star-sports-2.html",
   },
   {
     name: "Ten Sports",
@@ -60,37 +60,37 @@ const channels = [
   {
     name: "Star Sports 1",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/Star-Sports-1.jpg",
-    stream: "//stream.crichd.sc/update/star.php",
+    stream: "https://tamashalive.github.io/star-sports-1.html",
   },
   {
     name: "PTV Sports",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/PTV-Sports.jpg",
-    stream: "//stream.crichd.vip/update/ptv.php",
+    stream: "https://tamashalive.github.io/ptv-sports.html",
   },
   {
     name: "SuperSport",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/SuperSport-Cricket.jpg",
-    stream: "//stream.crichd.sc/update/sscricket.php",
+    stream: "https://tamashalive.github.io/supersport-cricket.html",
   },
   {
     name: "TNT Sports 1",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-1.jpg",
-    stream: "https://example.com/tnt-sports-1-stream",
+    stream: "https://tamashalive.github.io/tnt-sports-1.html",
   },
   {
     name: "TNT Sports 2",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/TNT-Sports-2.jpg",
-    stream: "https://example.com/tnt-sports-2-stream",
+    stream: "https://tamashalive.github.io/tnt-sports-2.html",
   },
   {
     name: "Sky Sports",
     img: "https://livematchzone.com/wp-content/uploads/2025/01/Sky-Sports-Cricket.jpg",
-    stream: "//stream.crichd.sc/update/star.php",
+    stream: "https://livematchzone.github.io/a-sports-hd.html",
   },
   {
     name: "T Sports",
     img: tsports,
-    stream: "http://chanel.dekhaott.com/Tsportshd/embed.html",
+    stream: "https://tamashalive.github.io/ten-sports.html",
   },
   {
     name: "Willow 2",
