@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import WinPredictor from "./WinPredictor.jsx";
+
 
 const tabMapping = {
   "live-matches": "Live",
@@ -135,8 +135,6 @@ const LiveScores = () => {
               Venue: {match.matchInfo.venueInfo.ground},{" "}
               {match.matchInfo.venueInfo.city}
             </p>
-                         {/* Win Predictor Component */}
-          <WinPredictor match={match} />
           </div>
         </div>
       ))}
