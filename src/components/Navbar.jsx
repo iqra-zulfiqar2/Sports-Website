@@ -9,6 +9,7 @@ import foxsports from "../assets/foxsports.jpg";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -32,18 +33,27 @@ const Navbar = () => {
   const cricketItems = [{ name: "BPL" }, { name: "IPL" }, { name: "ILT20" }];
 
   const channelsItems = [
-    "A Sports",
-    "Astro Cricket",
-    "Ten Sports",
-    "Willow Sports",
-    "PTV Sports",
-    "SuperSport",
-    "Sky Sports",
-    "T Sports",
-    "Willow 2",
-    "GTV",
-    "Fox Sports",
+    { name: "Willow Sports"},
+    { name: "Sky Sports" },
+    {
+      name: "TNT Sports 1",
+      submenu: ["TNT Sports 2", "TNT Sports 3", "TNT Sports 4"],
+    },
+    { name: "A Sports" },
+    { name: "PTV Sports" },
+    { name: "T Sports HD" },
+    {
+      name: "Star Sports 1",
+      submenu: ["Star Sports 2", "Star Sports 3"],
+    },
+    { name: "SuperSport" },
+    { name: "Ten Sports" },
+    { name: "Astro Cricket" },
+    { name: "Willow 2"},
+    { name: "GTV"},
+    { name: "Fox Sports"},
   ];
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -281,35 +291,67 @@ const Navbar = () => {
             </div>
           )}
         </div>
-                {/* Channels Dropdown */}
-                <div
+                 {/* Channels Dropdown */}
+        <div
           className="relative dropdown"
-          tabIndex="0"
           onMouseEnter={() => setActiveDropdown("channels")}
+          onMouseLeave={() => setActiveDropdown(null)}
         >
           <button className="font-semibold hover:text-[#17A56B] transition">
             Channels ▾
           </button>
           {activeDropdown === "channels" && (
-            <div className="absolute left-[-30px] w-48 bg-[#17A56B] text-white shadow-lg mt-2 rounded-md z-50 border border-[#128B58]">
-              {channelsItems.map((name, index) => (
-                <span
-                  key={index}
-                  onClick={() => {
-                    navigate(`/channel/${generateSlug(name)}`);
-                    setActiveDropdown(null);
-                  }}
-                  className="block px-4 py-2 hover:bg-white hover:text-[#17A56B] cursor-pointer transition"
-                >
-                  {name}
-                </span>
+            <div className="absolute left-0 w-48 bg-[#17A56B] text-white shadow-lg mt-2 rounded-md z-50 border border-[#128B58]">
+              {channelsItems.map((channel, index) => (
+                <div key={index} className="relative">
+                  <span
+                    onMouseEnter={() =>
+                      channel.submenu ? setActiveSubmenu(channel.name) : setActiveSubmenu(null)
+                    }
+                    onClick={() => {
+                      if (!channel.submenu) {
+                        navigate(`/channel/${generateSlug(channel.name)}`);
+                        setActiveDropdown(null);
+                      }
+                    }}
+                    className={`block px-4 py-2 hover:bg-white hover:text-[#17A56B] cursor-pointer transition ${
+                      channel.submenu ? "flex justify-between items-center" : ""
+                    }`}
+                  >
+                    {channel.name}
+                    {channel.submenu && "▸"}
+                  </span>
+
+                  {/* Submenu */}
+                  {channel.submenu && activeSubmenu === channel.name && (
+                    <div className="absolute left-full top-0 w-48 bg-[#17A56B] text-white shadow-lg rounded-md z-50 border border-[#128B58]">
+                      {channel.submenu.map((sub, subIndex) => (
+                        <span
+                          key={subIndex}
+                          onClick={() => {
+                            navigate(`/channel/${generateSlug(sub)}`);
+                            setActiveDropdown(null);
+                            setActiveSubmenu(null);
+                          }}
+                          className="block px-4 py-2 hover:bg-white hover:text-[#17A56B] cursor-pointer transition"
+                        >
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}
         </div>
+        <Link
+          to="/games"
+          className="text-white font-semibold hover:text-[#17A56B] transition"
+        >
+          Games
+        </Link>
       </div>
-           
-
 
       <div className="relative">
         <input

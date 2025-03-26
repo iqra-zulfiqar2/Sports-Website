@@ -12,6 +12,7 @@ import Women from "./components/ScheduleCategories/Women.jsx";
 import League from "./components/ScheduleCategories/League.jsx";
 import International from "./components/ScheduleCategories/International.jsx";
 import Domestic from "./components/ScheduleCategories/Domestic.jsx";
+import GamePage from "./components/GamePage.jsx";
 import { generateToken, messaging } from "./notifications/firebase.js";
 import { onMessage } from "firebase/messaging";
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
         <Route path="/channel/:slug" element={<ChannelPage />} />
+        <Route path="/games" element={<GamePage />} />
         <Route path="/live-scores/:tabSlug" element={<LiveScores />} />
         <Route path="/live-scores" element={<Navigate to="/live-scores/live-matches" replace />} /> {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />} />

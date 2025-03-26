@@ -3,12 +3,13 @@ import { useParams } from "react-router-dom";
 import { GoScreenFull, GoScreenNormal } from "react-icons/go";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { CiShare2 } from "react-icons/ci";
-import { FaFacebook, FaXTwitter, FaWhatsapp, FaReddit } from "react-icons/fa6";
+import { FaFacebook, FaXTwitter, FaWhatsapp, FaReddit, FaCommentDots } from "react-icons/fa6";
 import { Copy } from "lucide-react";
 import { FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { collection, addDoc, onSnapshot, serverTimestamp } from "firebase/firestore";
 
 
 
@@ -80,7 +81,10 @@ const LeaguePage = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [adsDisabled, setAdsDisabled] = useState(false);
   const toggleAds = () => setAdsDisabled(!adsDisabled);
-  const [viewerCount, setViewerCount] = useState(405); // Starts at 405
+  const [viewerCount, setViewerCount] = useState(405); 
+  const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
 
   useEffect(() => {
@@ -279,6 +283,29 @@ const LeaguePage = () => {
           </div>
         </div>
       </div>
+
+        {/* Chat Bubble Button */}
+        <button className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-lg text-white hover:bg-green-600"
+        onClick={() => setShowChat(!showChat)}>
+        <FaCommentDots size={24} />
+      </button>
+
+      {/* Chat Window */}
+      {showChat && (
+        <div className="fixed bottom-16 right-6 w-80 bg-white text-black rounded-lg shadow-lg">
+          <div className="p-4 border-b bg-green-500 text-white font-bold">Live Chat</div>
+          <div className="p-4 h-64 overflow-y-auto">
+            {messages.map((msg) => (
+              <div key={msg.id} className="mb-2 p-2 bg-gray-200 rounded">{msg.text}</div>
+            ))}
+          </div>
+          <div className="p-4 border-t flex">
+            <input type="text" className="flex-1 p-2 border rounded-l" placeholder="Type a message..."
+              value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
+            <button className="bg-green-500 text-white px-4 rounded-r">Send</button>
+          </div>
+        </div>
+      )}
 
 
       <ToastContainer />
