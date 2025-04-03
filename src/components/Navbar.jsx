@@ -6,6 +6,7 @@ import tsports from "../assets/tsports.png";
 import Willow from "../assets/Willow.png";
 import gtv from "../assets/gtv.png";
 import foxsports from "../assets/foxsports.jpg";
+import logo1 from "../assets/logo1.png"
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -216,9 +217,9 @@ const Navbar = () => {
       <div className="flex items-center space-x-6">
         <Link to="/">
           <img
-            src={logo}
+            src={logo1}
             alt="Logo"
-            className="h-10 mr-4 ml-2 cursor-pointer"
+            className="h-18 mr-4 ml-2 cursor-pointer"
           />
         </Link>
 

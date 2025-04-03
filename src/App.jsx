@@ -13,9 +13,11 @@ import League from "./components/ScheduleCategories/League.jsx";
 import International from "./components/ScheduleCategories/International.jsx";
 import Domestic from "./components/ScheduleCategories/Domestic.jsx";
 import GamePage from "./components/GamePage.jsx";
+import LiveChat from "./components/LiveChat.jsx";
 import { generateToken, messaging } from "./notifications/firebase.js";
 import { onMessage } from "firebase/messaging";
-
+import Chatango from "./components/Chatango.jsx";
+import PredictionPoll from "./components/PredictionPoll.jsx";
 
 function App() {
   useEffect(() => {
@@ -39,6 +41,9 @@ function App() {
         <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />} />
 
         <Route path="/schedule" element={<Schedule />} />
+        <Route path="/livechat" element={<LiveChat />} />
+        <Route path="/chat" element={<Chatango />} />
+        <Route path="/poll" element={<PredictionPoll />} />
 
         <Route path="/schedule/international" element={<International />} />
         <Route path="/schedule/domestic-others" element={<Domestic />} />

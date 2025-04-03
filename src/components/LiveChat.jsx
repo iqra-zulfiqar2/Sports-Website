@@ -1,74 +1,76 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Import Firebase config
-import { collection, addDoc, onSnapshot, serverTimestamp } from "firebase/firestore";
-import { FaCommentDots } from "react-icons/fa";
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 const LiveChat = () => {
-  const [showChat, setShowChat] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
+  const [message, setMessage] = useState("");
 
-  // Fetch messages in real-time
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "messages"),
-      (snapshot) => {
-        setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      }
-    );
-    return () => unsubscribe();
-  }, []);
+  const messages = [
+    { username: 'nobita_warrior', message: 'ldrop', flags: ['🇪🇸', '🤖'] },
+    { username: 'Nightbot', message: 'Mira 3 minutos: Watch this live stream of minecraft for 3 minutes: unlock the cape 🎮', flags: ['🇪🇸', '🇬🇧'] },
+    { username: 'mateo_renzo', message: 'sigma', flags: [] },
+    { username: 'Ninroy', message: '!claim', flags: [] }
+  ];
 
-  // Send message
-  const sendMessage = async () => {
-    if (newMessage.trim() === "") return;
-    await addDoc(collection(db, "messages"), {
-      text: newMessage,
-      timestamp: serverTimestamp(),
-    });
-    setNewMessage("");
+  const sendMessage = () => {
+    if (message.trim()) {
+      console.log("Sending message:", message);
+      setMessage(""); // Clear input after sending
+    }
   };
 
   return (
-    <div>
-      {/* Chat Bubble Button */}
-      <button
-        className="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-lg text-white hover:bg-green-600"
-        onClick={() => setShowChat(!showChat)}
+    <div className={`fixed right-0 top-0 h-3/4 w-80 bg-black mt-20 text-white transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Drawer Toggle Button */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="absolute left-0 top-1/2 transform -translate-x-full bg-[#17A56B] p-2 rounded-l-md z-50"
       >
-        <FaCommentDots size={24} />
+        {isOpen ? <ChevronRight className="text-white" /> : <ChevronLeft className="text-white" />}
       </button>
 
-      {/* Chat Window */}
-      {showChat && (
-        <div className="fixed bottom-16 right-6 w-80 bg-white text-black rounded-lg shadow-lg">
-          <div className="p-4 border-b bg-green-500 text-white font-bold">
-            Live Chat
+      {/* Chat Header */}
+      <div className="bg-gray-800 p-3 flex justify-between items-center">
+        <h2 className="text-lg font-bold flex-grow text-center">Stream Chat</h2>
+        <button 
+          onClick={() => setIsOpen(false)}
+          className="text-white hover:text-gray-300"
+        >
+          <X size={24} />
+        </button>
+      </div>
+
+      {/* Chat Messages Container */}
+      <div className="h-[calc(100%-160px)] overflow-y-auto p-2">
+        {messages.map((msg, index) => (
+          <div key={index} className="mb-2 text-sm">
+            <span>
+              {msg.flags.map((flag, flagIndex) => (
+                <span key={flagIndex} className="mr-1">{flag}</span>
+              ))}
+              <span className="font-bold text-blue-400 mr-1">{msg.username}</span>
+            </span>
+            <span>{msg.message}</span>
           </div>
-          <div className="p-4 h-64 overflow-y-auto">
-            {messages.map((msg) => (
-              <div key={msg.id} className="mb-2 p-2 bg-gray-200 rounded">
-                {msg.text}
-              </div>
-            ))}
-          </div>
-          <div className="p-4 border-t flex">
-            <input
-              type="text"
-              className="flex-1 p-2 border rounded-l"
-              placeholder="Type a message..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-            />
-            <button
-              className="bg-green-500 text-white px-4 rounded-r"
-              onClick={sendMessage}
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
+
+      {/* Chat Input & Send Button */}
+      <div className="absolute bottom-0 left-0 right-0 p-2 bg-gray-800 flex items-center space-x-2">
+        <input 
+          type="text" 
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Send a message" 
+          className="flex-grow p-2 bg-gray-700 text-white rounded outline-none"
+        />
+        <button 
+          onClick={sendMessage}
+          className="bg-[#17A56B] hover:bg-[#17A56B] text-white px-4 py-2 rounded"
+        >
+          Send
+        </button>
+      </div>
     </div>
   );
 };

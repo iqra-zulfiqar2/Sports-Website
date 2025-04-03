@@ -44,6 +44,13 @@ header {
   color: white !important; /* Active dot color */
 }
 
+#chatango-container {
+  background-color: black !important;
+  color: white !important;
+  margin-top: 20px !important;
+}
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
