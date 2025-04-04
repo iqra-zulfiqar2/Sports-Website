@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getVotes, updateVotes } from "../notifications/firebase.js"; // Import Firebase functions
+
 
 const PredictionPoll = () => {
   const [teams, setTeams] = useState(null);

@@ -40,6 +40,8 @@ function App() {
         <Route path="/live-scores" element={<Navigate to="/live-scores/live-matches" replace />} /> {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />} />
 
+        <Route path="/schedule/:category" element={<Schedule />} />
+
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/livechat" element={<LiveChat />} />
         <Route path="/chat" element={<Chatango />} />

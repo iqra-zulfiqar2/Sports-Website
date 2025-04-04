@@ -1,55 +1,67 @@
 import React from "react";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import International from "./ScheduleCategories/International.jsx";
 import Domestic from "./ScheduleCategories/Domestic.jsx";
 import League from "./ScheduleCategories/League.jsx";
 import Women from "./ScheduleCategories/Women.jsx";
 
-const categories = [
-  { name: "International", key: "international", component: <International /> },
-  { name: "Domestic & Others", key: "domestic-others", component: <Domestic/>},
-  { name: "T20 Leagues", key: "t20-leagues", component: <League/>},
-  { name: "Women", key: "women", component: <Women/>},
-];
+const tabMapping = {
+  "international": "International",
+  "domestic-others": "Domestic & Others",
+  "t20-leagues": "T20 Leagues",
+  "women": "Women",
+};
+
+const slugMapping = {
+  "International": "international",
+  "Domestic & Others": "domestic-others",
+  "T20 Leagues": "t20-leagues",
+  "Women": "women",
+};
+
+const tabContent = {
+  "International": <International />,
+  "Domestic & Others": <Domestic />,
+  "T20 Leagues": <League />,
+  "Women": <Women />,
+};
 
 const Schedule = () => {
   const navigate = useNavigate();
-  const { category } = useParams(); 
-  const [selectedCategory, setSelectedCategory] = useState(category || "international");
+  const { category } = useParams();
+  const activeTab = tabMapping[category] || "International";
 
-  const handleCategoryChange = (newCategory) => {
-    setSelectedCategory(newCategory);
-    navigate(`/schedule/${newCategory}`);
+  const handleTabClick = (tabName) => {
+    navigate(`/schedule/${slugMapping[tabName]}`);
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-4 mt-6 bg-gray-900 text-white min-h-screen">
-      {/* Page Title */}
-      <h2 className="text-2xl font-bold mt-6">Cricket Schedule</h2>
+    <div className="w-full px-4 sm:px-6 md:px-8 py-6 mt-6 bg-gray-900 text-white min-h-screen">
+      <h2 className="text-2xl font-bold mb-6">Cricket Schedule</h2>
 
-      {/* Category Navigation (Always Visible) */}
-      <div className="flex space-x-4 mt-4 mb-6">
-        {categories.map(({ name, key }) => (
+      {/* Tabs */}
+      <div className="flex gap-4 mb-6 border-b border-gray-700 pb-2">
+        {Object.keys(slugMapping).map((tabName) => (
           <button
-            key={key}
-            onClick={() => handleCategoryChange(key)}
-            className={`px-4 py-2 rounded-full cursor-pointer transition ${
-              selectedCategory === key ? "bg-green-500 text-white" : "bg-gray-300 text-gray-900"
+            key={tabName}
+            onClick={() => handleTabClick(tabName)}
+            className={`px-2 py-1 rounded-full text-lg font-semibold transition-all duration-300 ${
+              activeTab === tabName
+                ? "bg-green-500 text-white"
+                : "bg-gray-600 text-gray-300 hover:bg-gray-500"
             }`}
           >
-            {name}
+            {tabName}
           </button>
         ))}
       </div>
 
-      {/* Show Selected Category Data Below */}
-      <div className="p-4 bg-gray-800 rounded-lg">
-        {categories.find((cat) => cat.key === selectedCategory)?.component || <p>Select a category.</p>}
+      {/* Tab Content */}
+      <div className="bg-gray-800 rounded-lg p-4 shadow-md">
+        {tabContent[activeTab] || <p>Select a category.</p>}
       </div>
     </div>
   );
 };
 
 export default Schedule;
-

@@ -13,8 +13,8 @@ const International = () => {
         const response = await fetch(API_URL, {
           method: "GET",
           headers: {
-            "X-RapidAPI-Key": import.meta.env.VITE_RAPIDAPI_KEY,
-            "X-RapidAPI-Host": import.meta.env.VITE_RAPIDAPI_HOST,
+            "X-RapidAPI-Key": import.meta.env.VITE_RAPIDAPI_KEY_INTERNATIONAL,
+            "X-RapidAPI-Host": import.meta.env.VITE_RAPIDAPI_HOST_INTERNATIONAL,
           },
         });
 
