@@ -15,16 +15,17 @@ const LiveChat = () => {
   const sendMessage = () => {
     if (message.trim()) {
       console.log("Sending message:", message);
-      setMessage(""); // Clear input after sending
+      setMessage("");
     }
   };
 
   return (
-    <div className={`fixed right-0 top-0 h-3/4 w-80 bg-black mt-20 text-white transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`fixed right-0 top-[120px] h-3/4 w-80 bg-black text-white transition-transform duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      
       {/* Drawer Toggle Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute left-0 top-1/2 transform -translate-x-full bg-[#17A56B] p-2 rounded-l-md z-50"
+        className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2 bg-[#17A56B] p-2 rounded-l-md"
       >
         {isOpen ? <ChevronRight className="text-white" /> : <ChevronLeft className="text-white" />}
       </button>
@@ -40,7 +41,7 @@ const LiveChat = () => {
         </button>
       </div>
 
-      {/* Chat Messages Container */}
+      {/* Chat Messages */}
       <div className="h-[calc(100%-160px)] overflow-y-auto p-2">
         {messages.map((msg, index) => (
           <div key={index} className="mb-2 text-sm">
@@ -55,7 +56,7 @@ const LiveChat = () => {
         ))}
       </div>
 
-      {/* Chat Input & Send Button */}
+      {/* Chat Input */}
       <div className="absolute bottom-0 left-0 right-0 p-2 bg-gray-800 flex items-center space-x-2">
         <input 
           type="text" 
@@ -66,7 +67,7 @@ const LiveChat = () => {
         />
         <button 
           onClick={sendMessage}
-          className="bg-[#17A56B] hover:bg-[#17A56B] text-white px-4 py-2 rounded"
+          className="bg-[#17A56B] hover:bg-[#149158] text-white px-4 py-2 rounded"
         >
           Send
         </button>

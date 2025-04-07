@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar.jsx";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Home from "./components/Home.jsx";
 import LeaguePage from "./components/LeaguePage.jsx";
 import ChannelPage from "./components/ChannelPage.jsx";
@@ -18,15 +23,15 @@ import { generateToken, messaging } from "./notifications/firebase.js";
 import { onMessage } from "firebase/messaging";
 import Chatango from "./components/Chatango.jsx";
 import PredictionPoll from "./components/PredictionPoll.jsx";
+import IPLPage from "./components/IPLPage.jsx";
 
 function App() {
   useEffect(() => {
     generateToken();
     onMessage(messaging, (payload) => {
       console.log(payload);
-    })
+    });
   }, []);
-
 
   return (
     <>
@@ -34,19 +39,24 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
+        <Route path="/ipl" element={<IPLPage />} />
         <Route path="/channel/:slug" element={<ChannelPage />} />
         <Route path="/games" element={<GamePage />} />
         <Route path="/live-scores/:tabSlug" element={<LiveScores />} />
-        <Route path="/live-scores" element={<Navigate to="/live-scores/live-matches" replace />} /> {/* Default Redirect */}
-        <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />} />
-
+        <Route
+          path="/live-scores"
+          element={<Navigate to="/live-scores/live-matches" replace />}
+        />{" "}
+        {/* Default Redirect */}
+        <Route
+          path="/"
+          element={<Navigate to="/live-scores/live-matches" replace />}
+        />
         <Route path="/schedule/:category" element={<Schedule />} />
-
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/livechat" element={<LiveChat />} />
         <Route path="/chat" element={<Chatango />} />
         <Route path="/poll" element={<PredictionPoll />} />
-
         <Route path="/schedule/international" element={<International />} />
         <Route path="/schedule/domestic-others" element={<Domestic />} />
         <Route path="/schedule/t20-leagues" element={<League />} />

@@ -13,7 +13,7 @@ import foxsports from "../assets/foxsports.jpg";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+import LiveChat from "./LiveChat.jsx";
 
 // Define channel data
 const channels = [
@@ -241,14 +241,14 @@ const ChannelPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      <h1 className="text-3xl font-bold mt-6 mb-4">
+      <h1 className="text-3xl font-bold mt-6 mb-4 mr-86">
         Watch Free Live {channel.name} Online
       </h1>
 
       {/* Marquee Message */}
       <div className="w-full max-w-4xl">
         <marquee
-          className="text-[#17A56B] font-bold text-lg"
+          className="text-[#17A56B] font-bold text-lg w-[50%]"
           behavior="scroll"
           direction="left"
           scrollamount="5"
@@ -257,96 +257,98 @@ const ChannelPage = () => {
         </marquee>
       </div>
 
-      <div
-        ref={containerRef}
-        className="relative w-full max-w-4xl aspect-video bg-black rounded-lg"
-      >
-        {videoUrl ? (
-          <iframe
-            ref={iframeRef}
-            className="w-full h-full rounded-t-lg"
-            src={videoUrl}
-            frameBorder="0"
-            allowFullScreen
-            allow="encrypted-media"
-            title="Live Stream"
-          ></iframe>
-        ) : (
-          <div className="flex items-center justify-center bg-black h-full">
-            <button
-              className="bg-[#17A56B] text-white px-6 py-3 rounded-md hover:bg-green-600 transition"
-              onClick={handleWatchNow}
-            >
-              Watch Now
-            </button>
-          </div>
-        )}
+      <div className="flex flex-col md:flex-row w-full max-w-[1200px] gap-4 mt-4">
+  {/* Left side: Video Stream (70%) */}
+  <div
+    ref={containerRef}
+    className="relative w-full md:w-[70%] aspect-video bg-black rounded-lg"
+  >
+    {videoUrl ? (
+      <iframe
+        ref={iframeRef}
+        className="w-full h-full rounded-t-lg"
+        src={videoUrl}
+        frameBorder="0"
+        allowFullScreen
+        allow="encrypted-media"
+        title="Live Stream"
+      ></iframe>
+    ) : (
+      <div className="flex items-center justify-center bg-black h-full">
+        <button
+          className="bg-[#17A56B] text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+          onClick={handleWatchNow}
+        >
+          Watch Now
+        </button>
+      </div>
+    )}
 
-        {isPlaying && (
-          <div className="absolute top-3 right-3 flex items-center space-x-2 z-20">
-            <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-              LIVE
-            </div>
-            <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
-              <FaEye />
-              {formatCount(viewerCount)}
-            </div>
-          </div>
-        )}
-
-        {/* Control Bar Always Visible */}
-        <div className="absolute bottom-0 left-0 w-full bg-[#17A56B] flex items-center justify-between px-4 py-2 rounded-b-lg z-20">
-          <div className="flex items-center gap-3">
-            <img
-              src={channel.img}
-              alt={channel.name}
-              className="w-10 h-10 border-2 border-white rounded-md"
-            />
-            <span className="text-white font-semibold text-lg">
-              {channel.name}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleLike}
-              className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
-                liked
-                  ? "bg-white text-green-500"
-                  : "bg-white text-black hover:text-green-500"
-              }`}
-            >
-              <AiOutlineLike size={18} /> {formatCount(likes)}
-            </button>
-            <button
-              onClick={handleDislike}
-              className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
-                disliked ? "text-red-500" : "hover:text-red-500"
-              }`}
-            >
-              <AiOutlineDislike size={18} /> {formatCount(dislikes)}
-            </button>
-
-            <button
-              onClick={handleShare}
-              className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
-            >
-              <CiShare2 size={18} />
-            </button>
-            <button
-              onClick={toggleFullscreen}
-              className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition"
-            >
-              {isFullscreen ? (
-                <GoScreenNormal size={18} />
-              ) : (
-                <GoScreenFull size={18} />
-              )}
-            </button>
-          </div>
+    {isPlaying && (
+      <div className="absolute top-1 right-3 flex items-center space-x-2 z-20">
+        <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+          LIVE
+        </div>
+        <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
+          <FaEye />
+          {formatCount(viewerCount)}
         </div>
       </div>
+    )}
 
+    {/* Controls */}
+    <div className="absolute bottom-0 left-0 w-full bg-[#17A56B] flex items-center justify-between px-4 py-1 rounded-b-lg z-20">
+      <div className="flex items-center gap-3">
+        <img
+          src={channel.img}
+          alt={channel.name}
+          className="w-10 h-10 border-2 border-white rounded-md"
+        />
+        <span className="text-white font-semibold text-lg">{channel.name}</span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <button
+          onClick={handleLike}
+          className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
+            liked
+              ? "bg-white text-green-500"
+              : "bg-white text-black hover:text-green-500"
+          }`}
+        >
+          <AiOutlineLike size={18} /> {formatCount(likes)}
+        </button>
+        <button
+          onClick={handleDislike}
+          className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
+            disliked ? "text-red-500" : "hover:text-red-500"
+          }`}
+        >
+          <AiOutlineDislike size={18} /> {formatCount(dislikes)}
+        </button>
+        <button
+          onClick={handleShare}
+          className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+        >
+          <CiShare2 size={18} />
+        </button>
+        <button
+          onClick={toggleFullscreen}
+          className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition"
+        >
+          {isFullscreen ? (
+            <GoScreenNormal size={18} />
+          ) : (
+            <GoScreenFull size={18} />
+          )}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div className="w-[30%] ml-4">
+          <LiveChat />
+        </div>
+      </div>
       <ToastContainer />
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
@@ -408,7 +410,7 @@ const ChannelPage = () => {
 
       {/* Toggle Ads Button */}
       <button
-        className="mt-4 px-6 py-2 rounded-md text-white transition-all "
+        className="mt-4 px-6 py-2 mr-92 rounded-md text-white transition-all "
         onClick={toggleAds}
         style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}
       >

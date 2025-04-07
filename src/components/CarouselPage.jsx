@@ -72,12 +72,17 @@ const CarouselPage = () => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
   const handleWatchNow = () => {
-    navigate(`/league/${slides[currentSlide].slug}`);
+    const slug = slides[currentSlide].slug;
+
+    if (slug === "ipl") {
+      navigate("/ipl");
+    } else {
+      navigate(`/league/${slug}`);
+    }
   };
 
   const prevSlide = () => {
@@ -144,34 +149,36 @@ const CarouselPage = () => {
         </div>
       </div>
 
-      <div className="w-full px-1">  
-        <h2 className="text-3xl text-white font-bold mb-4">T20 League</h2>  
-        <Slider {...sliderSettings} className="w-full">  
-          {t20Leagues.map((league, index) => (  
-            <div key={index} className="px-1">  
-              <img  
-                src={league.src}  
-                alt={league.name}  
-                className="w-full rounded-lg cursor-pointer"  
-                onClick={() => navigate(`/league/${league.slug}`)}  
-              />  
-            </div>  
-          ))}  
-        </Slider>  
-  
-        <h2 className="text-3xl text-white font-bold mt-10 mb-4">Football League</h2>  
-        <Slider {...sliderSettings} className="w-full">  
-          {footballLeagues.map((league, index) => (  
-            <div key={index} className="px-1">  
-              <img  
-                src={league.src}  
-                alt={league.name}  
-                className="w-full rounded-lg cursor-pointer"  
-                onClick={() => navigate(`/league/${league.slug}`)}  
-              />  
-            </div>  
-          ))}  
-        </Slider>  
+      <div className="w-full px-1">
+        <h2 className="text-3xl text-white font-bold mb-4">T20 League</h2>
+        <Slider {...sliderSettings} className="w-full">
+          {t20Leagues.map((league, index) => (
+            <div key={index} className="px-1">
+              <img
+                src={league.src}
+                alt={league.name}
+                className="w-full rounded-lg cursor-pointer"
+                onClick={() => navigate(`/league/${league.slug}`)}
+              />
+            </div>
+          ))}
+        </Slider>
+
+        <h2 className="text-3xl text-white font-bold mt-10 mb-4">
+          Football League
+        </h2>
+        <Slider {...sliderSettings} className="w-full">
+          {footballLeagues.map((league, index) => (
+            <div key={index} className="px-1">
+              <img
+                src={league.src}
+                alt={league.name}
+                className="w-full rounded-lg cursor-pointer"
+                onClick={() => navigate(`/league/${league.slug}`)}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   );

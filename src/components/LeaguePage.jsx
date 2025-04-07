@@ -14,8 +14,6 @@ import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LiveChat from "./LiveChat.jsx";
-import Chatango from "./Chatango.jsx"
-import PredictionPoll from "./PredictionPoll.jsx";
 
 
 // League data with proper slug mapping
@@ -178,97 +176,112 @@ const LeaguePage = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-black text-white">
- <div className="w-[70%] flex flex-col items-center text-center mt-6">
-        <h1 className="text-3xl mr-86  font-bold">Watch Free Live {league.name} Online</h1>
-        <marquee className="text-[#17A56B] font-bold text-lg w-[40%]">
+      <div className="w-[70%] flex flex-col items-center text-center mt-6">
+        <h1 className="text-3xl mr-86  font-bold">
+          Watch Free Live {league.name} Online
+        </h1>
+        <marquee className="text-[#17A56B] font-bold text-lg w-[50%]">
           Click "Unmute Stream" Button to Get Voice
         </marquee>
       </div>
 
       <div className="flex w-full max-w-6xl mt-4">
-        <div ref={videoWrapperRef} className="w-[70%] aspect-video bg-black rounded-lg relative">
+        <div
+          ref={videoWrapperRef}
+          className="w-[70%] aspect-video bg-black rounded-lg relative"
+        >
           {!isPlaying ? (
             <div className="flex items-center justify-center h-full bg-black">
-              <button className="bg-[#17A56B] text-white px-6 py-3 rounded-md" onClick={() => setIsPlaying(true)}>
+              <button
+                className="bg-[#17A56B] text-white px-4 py-2 rounded-md"
+                onClick={() => setIsPlaying(true)}
+              >
                 Watch Now
               </button>
             </div>
           ) : (
-            <iframe className="w-full h-full rounded-t-lg" src={league.url} frameBorder="0" allowFullScreen title="Live Stream"></iframe>
+            <iframe
+              className="w-full h-full rounded-t-lg"
+              src={league.url}
+              frameBorder="0"
+              allowFullScreen
+              title="Live Stream"
+            ></iframe>
           )}
 
           {isPlaying && (
-            <div className="absolute top-3 right-3 flex items-center space-x-2 z-20">
-              <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">LIVE</div>
+            <div className="absolute top-1 right-3 flex items-center space-x-2 z-20">
+              <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                LIVE
+              </div>
               <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
                 <FaEye />
                 {viewerCount}
               </div>
             </div>
           )}
-                    {/* Control Bar */}
-                    <div
-              className={`${
-                isFullscreen
-                  ? "fixed bottom-0 left-0 w-full z-50"
-                  : "absolute bottom-0 left-0 w-full"
-              } bg-[#17A56B] flex items-center justify-between px-4 py-2`}
-            >
-              <div className="flex items-center gap-3">
-                <img
-                  src={league.src}
-                  alt={league.name}
-                  className="w-12 h-12 border-2 border-white rounded-md"
-                />
-                <span className="text-white font-semibold text-lg">
-                  {league.name}
-                </span>
-              </div>
+          {/* Control Bar */}
+          <div
+            className={`${
+              isFullscreen
+                ? "fixed bottom-0 left-0 w-full z-50"
+                : "absolute bottom-0 left-0 w-full"
+            } bg-[#17A56B] flex items-center justify-between px-4 py-1`}
+          >
+            <div className="flex items-center gap-3">
+              <img
+                src={league.src}
+                alt={league.name}
+                className="w-12 h-12 border-2 border-white rounded-md"
+              />
+              <span className="text-white font-semibold text-lg">
+                {league.name}
+              </span>
+            </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleLike}
-                  className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
-                    liked
-                      ? "bg-white text-green-500"
-                      : "bg-white text-black hover:text-green-500"
-                  }`}
-                >
-                  <AiOutlineLike size={18} /> {formatCount(likes)}
-                </button>
-                <button
-                  onClick={handleDislike}
-                  className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
-                    disliked ? "text-red-500" : "hover:text-red-500"
-                  }`}
-                >
-                  <AiOutlineDislike size={18} /> {formatCount(dislikes)}
-                </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleLike}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
+                  liked
+                    ? "bg-white text-green-500"
+                    : "bg-white text-black hover:text-green-500"
+                }`}
+              >
+                <AiOutlineLike size={18} /> {formatCount(likes)}
+              </button>
+              <button
+                onClick={handleDislike}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
+                  disliked ? "text-red-500" : "hover:text-red-500"
+                }`}
+              >
+                <AiOutlineDislike size={18} /> {formatCount(dislikes)}
+              </button>
 
-                <button
-                  onClick={handleShare}
-                  className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
-                >
-                  <CiShare2 size={18} />
-                </button>
+              <button
+                onClick={handleShare}
+                className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+              >
+                <CiShare2 size={18} />
+              </button>
 
-                <button
-                  onClick={toggleFullscreen}
-                  className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
-                >
-                  {isFullscreen ? (
-                    <GoScreenNormal size={18} />
-                  ) : (
-                    <GoScreenFull size={18} />
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={toggleFullscreen}
+                className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+              >
+                {isFullscreen ? (
+                  <GoScreenNormal size={18} />
+                ) : (
+                  <GoScreenFull size={18} />
+                )}
+              </button>
             </div>
           </div>
-
+        </div>
 
         <div className="w-[30%] ml-4">
-          <Chatango />
+          <LiveChat />
         </div>
       </div>
 
@@ -276,43 +289,69 @@ const LeaguePage = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-white text-lg font-bold">Share this game</h3>
-            <button onClick={() => setShowShareModal(false)} className="text-gray-400 hover:text-white">✖</button>
+            <button
+              onClick={() => setShowShareModal(false)}
+              className="text-gray-400 hover:text-white"
+            >
+              ✖
+            </button>
           </div>
           <div className="flex gap-3 mb-4 justify-center">
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`} target="_blank" className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
+              target="_blank"
+              className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
               <FaFacebook size={20} className="text-white" />
             </a>
-            <a href={`https://twitter.com/intent/tweet?url=${window.location.href}`} target="_blank" className="bg-black p-2 rounded flex items-center justify-center w-10 h-10">
+            <a
+              href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
+              target="_blank"
+              className="bg-black p-2 rounded flex items-center justify-center w-10 h-10"
+            >
               <FaXTwitter size={20} className="text-white" />
             </a>
-            <a href={`https://api.whatsapp.com/send?text=${window.location.href}`} target="_blank" className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10">
+            <a
+              href={`https://api.whatsapp.com/send?text=${window.location.href}`}
+              target="_blank"
+              className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
               <FaWhatsapp size={20} className="text-white" />
             </a>
-            <a href={`https://www.reddit.com/submit?url=${window.location.href}`} target="_blank" className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10">
+            <a
+              href={`https://www.reddit.com/submit?url=${window.location.href}`}
+              target="_blank"
+              className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
               <FaReddit size={20} className="text-white" />
             </a>
           </div>
           <div className="flex items-center bg-gray-700 rounded overflow-hidden">
-            <input type="text" value={window.location.href} readOnly className="bg-gray-700 text-white p-2 flex-1" />
-            <button onClick={copyToClipboard} className="bg-blue-600 p-2"><Copy size={16} className="text-white" /></button>
+            <input
+              type="text"
+              value={window.location.href}
+              readOnly
+              className="bg-gray-700 text-white p-2 flex-1"
+            />
+            <button onClick={copyToClipboard} className="bg-blue-600 p-2">
+              <Copy size={16} className="text-white" />
+            </button>
           </div>
         </div>
       )}
-              {/* Toggle Ads Button */}
-              <button
-          className="mt-4 px-6 mr-86 py-2 rounded-md text-white transition-all"
-          onClick={toggleAds}
-          style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}
-        >
-          {adsDisabled ? "Enable Ads" : "Disable Ads"}
-        </button>
+      {/* Toggle Ads Button */}
+      <button
+        className="mt-4 px-6 mr-86 py-2 rounded-md text-white transition-all"
+        onClick={toggleAds}
+        style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}
+      >
+        {adsDisabled ? "Enable Ads" : "Disable Ads"}
+      </button>
 
-        <div className="w-[70%] flex justify-center mt-4 mr-82">
-        <PredictionPoll />
-      </div>
       <ToastContainer />
     </div>
   );
 };
 
 export default LeaguePage;
+
