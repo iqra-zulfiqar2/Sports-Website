@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar.jsx";
 import {
@@ -24,14 +24,24 @@ import { onMessage } from "firebase/messaging";
 import Chatango from "./components/Chatango.jsx";
 import PredictionPoll from "./components/PredictionPoll.jsx";
 import IPLPage from "./components/IPLPage.jsx";
+import Chat from "./components/LiveChat/Chat.jsx";
+import Auth from "./components/Authentication/Auth.jsx";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 
 function App() {
+  
   useEffect(() => {
     generateToken();
     onMessage(messaging, (payload) => {
       console.log(payload);
     });
   }, []);
+
+  const [isAuth, setIsAuth] = useState(cookies.get("auth-token"))
+
+  
 
   return (
     <>
@@ -54,8 +64,8 @@ function App() {
         />
         <Route path="/schedule/:category" element={<Schedule />} />
         <Route path="/schedule" element={<Schedule />} />
-        <Route path="/livechat" element={<LiveChat />} />
-        <Route path="/chat" element={<Chatango />} />
+        <Route path="/livechat" element={<Chat />} />
+        <Route path="/chat" element={<LiveChat />} />
         <Route path="/poll" element={<PredictionPoll />} />
         <Route path="/schedule/international" element={<International />} />
         <Route path="/schedule/domestic-others" element={<Domestic />} />

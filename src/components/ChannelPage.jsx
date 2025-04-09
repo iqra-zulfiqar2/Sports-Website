@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import LiveChat from "./LiveChat.jsx";
+import Chat from "./LiveChat/Chat.jsx"
 
 // Define channel data
 const channels = [
@@ -346,7 +347,7 @@ const ChannelPage = () => {
     </div>
   </div>
   <div className="w-[30%] ml-4">
-          <LiveChat />
+          <Chat />
         </div>
       </div>
       <ToastContainer />

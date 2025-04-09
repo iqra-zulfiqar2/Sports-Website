@@ -14,6 +14,7 @@ import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LiveChat from "./LiveChat.jsx";
+import Chat from "./LiveChat/Chat.jsx"
 
 
 // League data with proper slug mapping
@@ -281,7 +282,7 @@ const LeaguePage = () => {
         </div>
 
         <div className="w-[30%] ml-4">
-          <LiveChat />
+          <Chat />
         </div>
       </div>
 

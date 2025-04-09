@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,16 +22,21 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const provider = new GoogleAuthProvider()
+
+
 
 export { messaging };
 
 export const generateToken = async () => {
-    const permission = await Notification.requestPermission();
-    console.log(permission);
-    if(permission === "granted"){
-        const token = await getToken(messaging, {
-            vapidKey: "BMH7FCxtqdP-JXxz4kmW_HR5bUZUYVVZj5BS0c9mjYYjAPQTwnsWYb-2bn1ysvtGKZuJQcbJgnAsvHgTgiFn3sw"
-        });
-        console.log(token);
-    }
+  const permission = await Notification.requestPermission();
+  console.log(permission);
+  if (permission === "granted") {
+    const token = await getToken(messaging, {
+      vapidKey: "BMH7FCxtqdP-JXxz4kmW_HR5bUZUYVVZj5BS0c9mjYYjAPQTwnsWYb-2bn1ysvtGKZuJQcbJgnAsvHgTgiFn3sw"
+    });
+    console.log(token);
+  }
 };
