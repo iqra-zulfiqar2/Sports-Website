@@ -105,9 +105,9 @@ const Chat = () => {
           className="fixed right-0 top-20 w-80 bg-black mt-6 text-white rounded-l-md overflow-hidden shadow-lg flex flex-col z-50"
           style={{ height: "470px" }}
         >
-          {/* Header */}
-          <div className="bg-gray-900 py-2 px-4 flex justify-between items-center border-b border-gray-700">
-            <span className="font-bold text-sm">STREAM CHAT</span>
+   {/* Header */}
+  <div className="bg-gray-900 py-2 px-4 flex justify-between items-center border-b border-gray-700">
+            <span className="font-bold text-sm ml-21">STREAM CHAT</span>
             <button
               onClick={() => setIsChatOpen(false)}
               className="text-white hover:text-white"
@@ -115,6 +115,7 @@ const Chat = () => {
               ✕
             </button>
           </div>
+
 
           {/* Welcome */}
           <div className="text-center py-1 text-gray-500 text-xs">
