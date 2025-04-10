@@ -13,7 +13,6 @@ const Auth = ({ setIsAuth, onClose }) => {
       const result = await signInWithPopup(auth, provider);
       cookies.set("auth-token", result.user.refreshToken);
       setIsAuth(true);
-      if (onClose) onClose(); // ✅ Close modal on success
     } catch (err) {
       console.error("Google Sign-in failed:", err);
     }
