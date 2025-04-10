@@ -14,7 +14,7 @@ import Auth from "../Authentication/Auth.jsx"; // Make sure path is correct
 
 const cookies = new Cookies(); // Initialize cookies
 
-const Chat = () => {
+const IPLChat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(true);
@@ -22,33 +22,22 @@ const Chat = () => {
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
   const chatRef = useRef(null);
 
-  const messageRef = collection(db, "messages");
+  const messageRef = collection(db, "ipl-chat");
 
-  // Get the first name from cookies or an empty string if not found
+  // Get the first name from Firebase's displayName or extract it
   const getFirstName = () => {
-    const firstName = cookies.get("first-name");
-    return firstName; // Return the first name from cookies if available
+    const currentUser = auth.currentUser;
+    const fullName = currentUser ? currentUser.displayName : "Guest";
+    return fullName.split(" ")[0]; // Get the first part of the name (before any spaces)
   };
 
   // Assign a color based on user
   const getUserColor = (username) => {
     const colors = [
-      "text-pink-500", // Pink
-      "text-blue-400", // Blue
-      "text-green-500", // Green
-      "text-purple-400", // Purple
-      "text-amber-500", // Amber
-      "text-red-400", // Red
-      "text-cyan-400", // Cyan
-      "text-orange-400", // Orange
-      "text-yellow-500", // Yellow
-      "text-teal-500", // Teal
-      "text-indigo-500", // Indigo
-      "text-lime-500", // Lime
-      "text-fuchsia-500", // Fuchsia
-      "text-violet-500", // Violet
-      "text-green-600", // Dark Green
-      "text-pink-600", // Dark Pink
+      "text-pink-500", "text-blue-400", "text-green-500", "text-purple-400",
+      "text-amber-500", "text-red-400", "text-cyan-400", "text-orange-400",
+      "text-yellow-500", "text-teal-500", "text-lime-500",
+      "text-fuchsia-500", "text-violet-500", "text-green-600", "text-pink-600",
     ];
 
     let hash = 0;
@@ -64,7 +53,6 @@ const Chat = () => {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
-        // 🚫 Don't auto-open popup here!
       }
     });
     return () => unsubscribe();
@@ -90,7 +78,7 @@ const Chat = () => {
     if (!newMessage.trim() || !isAuthenticated) return;
 
     const currentUser = auth.currentUser;
-    const username = getFirstName();
+    const username = getFirstName(); // Only get the first name
 
     try {
       await addDoc(messageRef, {
@@ -110,9 +98,9 @@ const Chat = () => {
       setIsAuthPopupOpen(true);
     }
   };
-  // Handle authentication success (store first name in cookies)
+
   const handleAuthSuccess = () => {
-    const firstName = getFirstName(); // Get the first name after login
+    const firstName = getFirstName();
     if (firstName) {
       setIsAuthenticated(true);
       setIsAuthPopupOpen(false);
@@ -129,7 +117,7 @@ const Chat = () => {
         >
           {/* Header */}
           <div className="bg-gray-800 py-2 px-4 flex justify-between items-center border-b border-gray-700">
-            <span className="font-bold text-sm ml-21">STREAM CHAT</span>
+            <span className="font-bold text-sm ml-21">IPL STREAM CHAT</span>
             <button
               onClick={() => setIsChatOpen(false)}
               className="text-white hover:text-white"
@@ -189,7 +177,7 @@ const Chat = () => {
           onClick={() => setIsChatOpen(true)}
           className="fixed right-0 top-[5.5rem] bg-[#14925F] text-white mt-8 p-1 text-2xl rounded-l-md hover:bg-green-700 transition"
         >
-          💬 {/* This replaces the ➤ arrow with a chat bubble */}
+          💬 {/* Chat bubble icon */}
         </button>
       )}
 
@@ -204,4 +192,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default IPLChat;

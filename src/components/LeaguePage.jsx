@@ -19,11 +19,6 @@ import Chat from "./LiveChat/Chat.jsx"
 
 // League data with proper slug mapping
 const leaguesData = {
-  psl: {
-    name: "PSL",
-    src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-Super-League.webp",
-    url: "https://tamashalive.github.io/ten-sports.html",
-  },
   bpl: {
     name: "BPL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/BPL-League.webp",

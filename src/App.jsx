@@ -25,8 +25,10 @@ import Chatango from "./components/Chatango.jsx";
 import PredictionPoll from "./components/PredictionPoll.jsx";
 import IPLPage from "./components/IPLPage.jsx";
 import Chat from "./components/LiveChat/Chat.jsx";
+import IPLChat from "./components/LiveChat/IPLChat.jsx";
 import Auth from "./components/Authentication/Auth.jsx";
 import Cookies from 'universal-cookie';
+import PSLPage from "./components/PSLPage.jsx";
 const cookies = new Cookies();
 
 
@@ -50,6 +52,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
         <Route path="/ipl" element={<IPLPage />} />
+        <Route path="/psl" element={<PSLPage />} />
         <Route path="/channel/:slug" element={<ChannelPage />} />
         <Route path="/games" element={<GamePage />} />
         <Route path="/live-scores/:tabSlug" element={<LiveScores />} />
@@ -65,7 +68,7 @@ function App() {
         <Route path="/schedule/:category" element={<Schedule />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/livechat" element={<Chat />} />
-        <Route path="/chat" element={<LiveChat />} />
+        <Route path="/iplchat" element={<IPLChat />} />
         <Route path="/poll" element={<PredictionPoll />} />
         <Route path="/schedule/international" element={<International />} />
         <Route path="/schedule/domestic-others" element={<Domestic />} />

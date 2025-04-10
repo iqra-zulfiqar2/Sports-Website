@@ -11,8 +11,17 @@ const Auth = ({ setIsAuth, onClose }) => {
   const SignInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
+
+      const fullName = result.user.displayName || "";
+      const firstName = fullName.split(" ")[0]; // 🧠 Extract first name
+
+      // Store both token and first name in cookies
       cookies.set("auth-token", result.user.refreshToken);
+      cookies.set("first-name", firstName); // ✅ Save first name
+
       setIsAuth(true);
+
+      if (onClose) onClose(); // Optional: close modal after successful login
     } catch (err) {
       console.error("Google Sign-in failed:", err);
     }
@@ -20,7 +29,7 @@ const Auth = ({ setIsAuth, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Background Overlay with 80% opacity */}
+      {/* Background Overlay */}
       <div className="absolute inset-0 bg-black opacity-80"></div>
 
       {/* Modal Content */}

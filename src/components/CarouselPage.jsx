@@ -13,17 +13,17 @@ const slides = [
   },
   {
     image:
+      "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-Super-League.webp",
+    slug: "psl",
+  },
+  {
+    image:
       "https://livematchzone.com/wp-content/uploads/2025/03/UEFA-Champions-League.webp",
     slug: "uefa-champions-league",
   },
 ];
 
 const t20Leagues = [
-  {
-    name: "PSL",
-    src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-Super-League.webp",
-    slug: "psl",
-  },
   {
     name: "BPL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/BPL-League.webp",
@@ -77,13 +77,16 @@ const CarouselPage = () => {
 
   const handleWatchNow = () => {
     const slug = slides[currentSlide].slug;
-
+  
     if (slug === "ipl") {
       navigate("/ipl");
+    } else if (slug === "psl") {
+      navigate("/psl"); // This should match the route that renders PSLPage
     } else {
       navigate(`/league/${slug}`);
     }
   };
+  
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));

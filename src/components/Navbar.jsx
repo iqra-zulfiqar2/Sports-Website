@@ -6,7 +6,8 @@ import tsports from "../assets/tsports.png";
 import Willow from "../assets/Willow.png";
 import gtv from "../assets/gtv.png";
 import foxsports from "../assets/foxsports.jpg";
-import logo1 from "../assets/logo1.png"
+import logo1 from "../assets/logo1.png";
+import mainLogo from "../assets/mainLogo.png";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -213,13 +214,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black text-white p-4 flex items-center justify-between relative z-50 shadow-md">
+    <nav className="bg-black text-white p-1 flex items-center justify-between relative z-50 shadow-md">
       <div className="flex items-center space-x-6">
         <Link to="/">
           <img
-            src={logo1}
+            src={mainLogo}
             alt="Logo"
-            className="h-18 mr-4 ml-2 cursor-pointer"
+            className="h-16 mr-4 ml-2 cursor-pointer"
           />
         </Link>
 

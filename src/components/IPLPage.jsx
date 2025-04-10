@@ -12,10 +12,9 @@ import {
 import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LiveChat from "./LiveChat.jsx";
-import Chatango from "./Chatango.jsx";
 import PredictionPoll from "./PredictionPoll.jsx";
 import Chat from "./LiveChat/Chat.jsx"
+import IPLChat from "./LiveChat/IPLChat.jsx"
 
 const league = {
   name: "IPL",
@@ -166,7 +165,7 @@ const IPLPage = () => {
         </div>
 
         <div className="w-[30%] ml-4">
-          <Chat />
+          <IPLChat />
         </div>
       </div>
 
