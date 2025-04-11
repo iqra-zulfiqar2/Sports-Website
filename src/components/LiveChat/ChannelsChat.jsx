@@ -10,32 +10,36 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../notifications/firebase";
 import Cookies from "universal-cookie";
-import Auth from "../Authentication/Auth.jsx";
+import Auth from "../Authentication/Auth.jsx"; // Make sure path is correct
 
-const cookies = new Cookies();
+const cookies = new Cookies(); // Initialize cookies
 
-const IPLChat = ({ onToggleChat, showChat }) => {
+const ChannelsChat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthPopupOpen, setIsAuthPopupOpen] = useState(false);
   const chatRef = useRef(null);
 
-  const messageRef = collection(db, "ipl-chat");
+  const messageRef = collection(db, "channels-chat");
 
+  // Get the first name from Firebase's displayName or extract it
   const getFirstName = () => {
     const currentUser = auth.currentUser;
     const fullName = currentUser ? currentUser.displayName : "Guest";
-    return fullName.split(" ")[0];
+    return fullName.split(" ")[0]; // Get the first part of the name (before any spaces)
   };
 
+  // Assign a color based on user
   const getUserColor = (username) => {
     const colors = [
       "text-pink-500", "text-blue-400", "text-green-500", "text-purple-400",
       "text-amber-500", "text-red-400", "text-cyan-400", "text-orange-400",
-      "text-yellow-500", "text-teal-500", "text-indigo-500", "text-lime-500",
+      "text-yellow-500", "text-teal-500", "text-lime-500",
       "text-fuchsia-500", "text-violet-500", "text-green-600", "text-pink-600",
     ];
+
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
       hash = username.charCodeAt(i) + ((hash << 5) - hash);
@@ -74,7 +78,7 @@ const IPLChat = ({ onToggleChat, showChat }) => {
     if (!newMessage.trim() || !isAuthenticated) return;
 
     const currentUser = auth.currentUser;
-    const username = getFirstName();
+    const username = getFirstName(); // Only get the first name
 
     try {
       await addDoc(messageRef, {
@@ -105,25 +109,29 @@ const IPLChat = ({ onToggleChat, showChat }) => {
 
   return (
     <div className="relative">
-      {showChat ? (
+      {/* Chat Window */}
+      {isChatOpen ? (
         <div
           className="fixed right-0 top-20 w-80 bg-gray-900 mt-6 text-white rounded-l-md overflow-hidden shadow-lg flex flex-col z-50"
           style={{ height: "470px" }}
         >
+          {/* Header */}
           <div className="bg-gray-800 py-2 px-4 flex justify-between items-center border-b border-gray-700">
-            <span className="font-bold text-sm ml-21">IPL STREAM CHAT</span>
+            <span className="font-bold text-sm ml-21">CHANNEL STREAM CHAT</span>
             <button
-              onClick={onToggleChat}
+              onClick={() => setIsChatOpen(false)}
               className="text-white hover:text-white"
             >
               ✕
             </button>
           </div>
 
+          {/* Welcome */}
           <div className="text-center py-1 text-gray-500 text-xs">
             Welcome to the chat room!
           </div>
 
+          {/* Messages */}
           <div
             ref={chatRef}
             className="flex-1 overflow-y-auto px-4 py-2 space-y-1.5 text-sm custom-scrollbar"
@@ -139,6 +147,7 @@ const IPLChat = ({ onToggleChat, showChat }) => {
             ))}
           </div>
 
+          {/* Input */}
           <form onSubmit={handleSubmit} className="bg-gray-900 p-2 mt-auto">
             <div className="flex gap-1">
               <input
@@ -165,13 +174,14 @@ const IPLChat = ({ onToggleChat, showChat }) => {
         </div>
       ) : (
         <button
-          onClick={onToggleChat}
+          onClick={() => setIsChatOpen(true)}
           className="fixed right-0 top-[5.5rem] bg-[#14925F] text-white mt-8 p-1 text-2xl rounded-l-md hover:bg-green-700 transition"
         >
-          💬
+          💬 {/* Chat bubble icon */}
         </button>
       )}
 
+      {/* 🔥 Auth Popup */}
       {isAuthPopupOpen && (
         <Auth
           setIsAuth={handleAuthSuccess}
@@ -182,4 +192,4 @@ const IPLChat = ({ onToggleChat, showChat }) => {
   );
 };
 
-export default IPLChat;
+export default ChannelsChat;

@@ -1,3 +1,5 @@
+// ✅ LeaguePage.jsx (with chat toggle logic added)
+
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { GoScreenFull, GoScreenNormal } from "react-icons/go";
@@ -14,8 +16,7 @@ import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LiveChat from "./LiveChat.jsx";
-import Chat from "./LiveChat/Chat.jsx"
-
+import Chat from "./LiveChat/Chat.jsx";
 
 // League data with proper slug mapping
 const leaguesData = {
@@ -78,18 +79,18 @@ const LeaguePage = () => {
   const [disliked, setDisliked] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [adsDisabled, setAdsDisabled] = useState(false);
-  const toggleAds = () => setAdsDisabled(!adsDisabled);
   const [viewerCount, setViewerCount] = useState(405);
-  const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  useEffect(() => {
-    // Simulate viewer count increase
-    const interval = setInterval(() => {
-      setViewerCount((prev) => prev + Math.floor(Math.random() * 5 + 1)); // Increases by 1-5 viewers
-    }, 4000); // Updates every 4 seconds
+  // ✅ Chat toggle logic
+  const [showChat, setShowChat] = useState(true);
+  const toggleChat = () => setShowChat(!showChat);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setViewerCount((prev) => prev + Math.floor(Math.random() * 5 + 1));
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -122,13 +123,8 @@ const LeaguePage = () => {
     }
   };
 
-  const handleShare = () => {
-    setShowShareModal(true);
-  };
-
-  const closeModal = () => {
-    setShowShareModal(false);
-  };
+  const handleShare = () => setShowShareModal(true);
+  const closeModal = () => setShowShareModal(false);
 
   const toggleFullscreen = () => {
     if (!isFullscreen) {
@@ -139,10 +135,9 @@ const LeaguePage = () => {
     setIsFullscreen(!isFullscreen);
   };
 
-  const currentURL = window.location.href;
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(currentURL)
+      .writeText(window.location.href)
       .then(() => {
         toast.success("Copied to clipboard!", {
           position: "top-center",
@@ -157,34 +152,38 @@ const LeaguePage = () => {
       .catch((error) => console.error("Failed to copy:", error));
   };
 
-  // Detect fullscreen change
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
-
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () =>
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-
-
   return (
     <div className="flex flex-col items-center min-h-screen bg-black text-white">
-      <div className="w-[70%] flex flex-col items-center text-center mt-6">
-        <h1 className="text-3xl mr-86  font-bold">
+      <div
+        className={`flex flex-col items-center text-center mt-6 ${
+          showChat ? "w-[70%]" : "w-full"
+        }`}
+      >
+        <h1 className={`text-3xl font-bold ${showChat ? "mr-86" : "mx-auto"}`}>
           Watch Free Live {league.name} Online
         </h1>
+
         <marquee className="text-[#17A56B] font-bold text-lg w-[50%]">
           Click "Unmute Stream" Button to Get Voice
         </marquee>
       </div>
 
       <div className="flex w-full max-w-6xl mt-4">
+        {/* 🟩 Video section adjusts based on showChat */}
         <div
           ref={videoWrapperRef}
-          className="w-[70%] aspect-video bg-black rounded-lg relative"
+          className={`${
+            showChat ? "w-[70%]" : "w-full"
+          } transition-all duration-300 aspect-video bg-black rounded-lg relative`}
         >
           {!isPlaying ? (
             <div className="flex items-center justify-center h-full bg-black">
@@ -216,6 +215,7 @@ const LeaguePage = () => {
               </div>
             </div>
           )}
+
           {/* Control Bar */}
           <div
             className={`${
@@ -254,14 +254,12 @@ const LeaguePage = () => {
               >
                 <AiOutlineDislike size={18} /> {formatCount(dislikes)}
               </button>
-
               <button
                 onClick={handleShare}
                 className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
               >
                 <CiShare2 size={18} />
               </button>
-
               <button
                 onClick={toggleFullscreen}
                 className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
@@ -276,9 +274,19 @@ const LeaguePage = () => {
           </div>
         </div>
 
-        <div className="w-[30%] ml-4">
-          <Chat />
-        </div>
+        {/* 🟦 Chat panel (conditionally rendered) */}
+        {showChat ? (
+          <div className="w-[30%] ml-4">
+            <Chat onToggleChat={toggleChat} showChat={showChat} />
+          </div>
+        ) : (
+          <button
+            onClick={toggleChat}
+            className="fixed right-0 top-[5.5rem] bg-[#14925F] text-white mt-8 p-1 text-2xl rounded-l-md hover:bg-green-700 transition"
+          >
+            💬
+          </button>
+        )}
       </div>
 
       {showShareModal && (
@@ -335,10 +343,12 @@ const LeaguePage = () => {
           </div>
         </div>
       )}
-      {/* Toggle Ads Button */}
+
       <button
-        className="mt-4 px-6 mr-86 py-2 rounded-md text-white transition-all"
-        onClick={toggleAds}
+        className={`mt-4 px-6 py-2 rounded-md text-white transition-all ${
+          showChat ? "mr-86" : ""
+        }`}
+        onClick={() => setAdsDisabled(!adsDisabled)}
         style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}
       >
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
@@ -350,4 +360,3 @@ const LeaguePage = () => {
 };
 
 export default LeaguePage;
-

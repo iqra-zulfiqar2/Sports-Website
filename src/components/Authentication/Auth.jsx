@@ -52,7 +52,7 @@ const Auth = ({ setIsAuth, onClose }) => {
         {/* Sign-in Button */}
         <button
           onClick={SignInWithGoogle}
-          className="w-full flex items-center justify-center gap-3 bg-white text-black text-lg font-semibold py-3 px-6 rounded-lg hover:bg-blue-400 transition-colors duration-200 shadow-md"
+          className="w-full flex items-center justify-center gap-3 bg-white text-black text-lg font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md"
         >
           <FaGoogle size={24} color="#4285F4" />
           Sign In With Google

@@ -12,11 +12,9 @@ import {
 import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PredictionPoll from "./PredictionPoll.jsx";
-import Chat from "./LiveChat/Chat.jsx"
-import IPLChat from "./LiveChat/IPLChat.jsx"
+import IPLChat from "./LiveChat/IPLChat.jsx";
 
-const league = {
+const iplData = {
   name: "IPL",
   src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
   url: "https://tamashalive.github.io/willow-cricket.html",
@@ -32,8 +30,10 @@ const IPLPage = () => {
   const [disliked, setDisliked] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [adsDisabled, setAdsDisabled] = useState(false);
-  const toggleAds = () => setAdsDisabled(!adsDisabled);
   const [viewerCount, setViewerCount] = useState(405);
+  const [showChat, setShowChat] = useState(true);
+
+  const toggleChat = () => setShowChat(!showChat);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +43,7 @@ const IPLPage = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `Watch Free Live ${league.name} Online`;
+    document.title = `Watch Free Live ${iplData.name} Online`;
   }, []);
 
   const formatCount = (num) => {
@@ -71,6 +71,9 @@ const IPLPage = () => {
     }
   };
 
+  const handleShare = () => setShowShareModal(true);
+  const closeModal = () => setShowShareModal(false);
+
   const toggleFullscreen = () => {
     if (!isFullscreen) {
       videoWrapperRef.current?.requestFullscreen?.();
@@ -80,17 +83,21 @@ const IPLPage = () => {
     setIsFullscreen(!isFullscreen);
   };
 
-  const currentURL = window.location.href;
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(currentURL)
+      .writeText(window.location.href)
       .then(() => {
         toast.success("Copied to clipboard!", {
           position: "top-center",
           autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
           theme: "dark",
         });
-      });
+      })
+      .catch((error) => console.error("Failed to copy:", error));
   };
 
   useEffect(() => {
@@ -104,28 +111,50 @@ const IPLPage = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-black text-white">
-      <div className="w-[70%] flex flex-col items-center text-center mt-6">
-        <h1 className="text-3xl font-bold mr-86">Watch Free Live {league.name} Online</h1>
+      <div
+        className={`flex flex-col items-center text-center mt-6 ${
+          showChat ? "w-[70%]" : "w-full"
+        }`}
+      >
+        <h1 className={`text-3xl font-bold ${showChat ? "mr-86" : "mx-auto"}`}>
+          Watch Free Live {iplData.name} Online
+        </h1>
         <marquee className="text-[#17A56B] font-bold text-lg w-[50%]">
           Click "Unmute Stream" Button to Get Voice
         </marquee>
       </div>
 
       <div className="flex w-full max-w-6xl mt-4">
-        <div ref={videoWrapperRef} className="w-[70%] aspect-video bg-black rounded-lg relative">
+        <div
+          ref={videoWrapperRef}
+          className={`${
+            showChat ? "w-[70%]" : "w-full"
+          } transition-all duration-300 aspect-video bg-black rounded-lg relative`}
+        >
           {!isPlaying ? (
             <div className="flex items-center justify-center h-full bg-black">
-              <button className="bg-[#17A56B] text-white px-4 py-2 rounded-md" onClick={() => setIsPlaying(true)}>
+              <button
+                className="bg-[#17A56B] text-white px-4 py-2 rounded-md"
+                onClick={() => setIsPlaying(true)}
+              >
                 Watch Now
               </button>
             </div>
           ) : (
-            <iframe className="w-full h-full rounded-t-lg" src={league.url} frameBorder="0" allowFullScreen title="Live Stream"></iframe>
+            <iframe
+              className="w-full h-full rounded-t-lg"
+              src={iplData.url}
+              frameBorder="0"
+              allowFullScreen
+              title="Live Stream"
+            ></iframe>
           )}
 
           {isPlaying && (
             <div className="absolute top-1 right-3 flex items-center space-x-2 z-20">
-              <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">LIVE</div>
+              <div className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                LIVE
+              </div>
               <div className="bg-black/60 text-white text-sm px-3 py-1 rounded flex items-center gap-1">
                 <FaEye />
                 {viewerCount}
@@ -133,78 +162,142 @@ const IPLPage = () => {
             </div>
           )}
 
-          <div className={`${
+          <div
+            className={`${
               isFullscreen
                 ? "fixed bottom-0 left-0 w-full z-50"
                 : "absolute bottom-0 left-0 w-full"
-            } bg-[#17A56B] flex items-center justify-between px-4 py-1`}>
+            } bg-[#17A56B] flex items-center justify-between px-4 py-1`}
+          >
             <div className="flex items-center gap-3">
-              <img src={league.src} alt={league.name} className="w-12 h-12 border-2 border-white rounded-md" />
-              <span className="text-white font-semibold text-lg">{league.name}</span>
+              <img
+                src={iplData.src}
+                alt={iplData.name}
+                className="w-12 h-12 border-2 border-white rounded-md"
+              />
+              <span className="text-white font-semibold text-lg">
+                {iplData.name}
+              </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <button onClick={handleLike} className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
-                liked ? "bg-white text-green-500" : "bg-white text-black hover:text-green-500"
-              }`}>
+              <button
+                onClick={handleLike}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all ${
+                  liked
+                    ? "bg-white text-green-500"
+                    : "bg-white text-black hover:text-green-500"
+                }`}
+              >
                 <AiOutlineLike size={18} /> {formatCount(likes)}
               </button>
-              <button onClick={handleDislike} className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
-                disliked ? "text-red-500" : "hover:text-red-500"
-              }`}>
+              <button
+                onClick={handleDislike}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg bg-white text-black transition-all ${
+                  disliked ? "text-red-500" : "hover:text-red-500"
+                }`}
+              >
                 <AiOutlineDislike size={18} /> {formatCount(dislikes)}
               </button>
-              <button onClick={() => setShowShareModal(true)} className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all">
+              <button
+                onClick={handleShare}
+                className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+              >
                 <CiShare2 size={18} />
               </button>
-              <button onClick={toggleFullscreen} className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all">
-                {isFullscreen ? <GoScreenNormal size={18} /> : <GoScreenFull size={18} />}
+              <button
+                onClick={toggleFullscreen}
+                className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+              >
+                {isFullscreen ? (
+                  <GoScreenNormal size={18} />
+                ) : (
+                  <GoScreenFull size={18} />
+                )}
               </button>
             </div>
           </div>
         </div>
 
-        <div className="w-[30%] ml-4">
-          <IPLChat />
-        </div>
+        {showChat ? (
+          <div className="w-[30%] ml-4">
+            <IPLChat onToggleChat={toggleChat} showChat={showChat} />
+          </div>
+        ) : (
+          <button
+            onClick={toggleChat}
+            className="fixed right-0 top-[5.5rem] bg-[#14925F] text-white mt-8 p-1 text-2xl rounded-l-md hover:bg-green-700 transition"
+          >
+            💬
+          </button>
+        )}
       </div>
 
       {showShareModal && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-white text-lg font-bold">Share this game</h3>
-            <button onClick={() => setShowShareModal(false)} className="text-gray-400 hover:text-white">✖</button>
+            <button
+              onClick={closeModal}
+              className="text-gray-400 hover:text-white"
+            >
+              ✖
+            </button>
           </div>
           <div className="flex gap-3 mb-4 justify-center">
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${currentURL}`} target="_blank" className="bg-blue-600 p-2 rounded w-10 h-10 flex items-center justify-center">
-              <FaFacebook className="text-white" />
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
+              target="_blank"
+              className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaFacebook size={20} className="text-white" />
             </a>
-            <a href={`https://twitter.com/intent/tweet?url=${currentURL}`} target="_blank" className="bg-black p-2 rounded w-10 h-10 flex items-center justify-center">
-              <FaXTwitter className="text-white" />
+            <a
+              href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
+              target="_blank"
+              className="bg-black p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaXTwitter size={20} className="text-white" />
             </a>
-            <a href={`https://api.whatsapp.com/send?text=${currentURL}`} target="_blank" className="bg-green-500 p-2 rounded w-10 h-10 flex items-center justify-center">
-              <FaWhatsapp className="text-white" />
+            <a
+              href={`https://api.whatsapp.com/send?text=${window.location.href}`}
+              target="_blank"
+              className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaWhatsapp size={20} className="text-white" />
             </a>
-            <a href={`https://reddit.com/submit?url=${currentURL}`} target="_blank" className="bg-red-500 p-2 rounded w-10 h-10 flex items-center justify-center">
-              <FaReddit className="text-white" />
+            <a
+              href={`https://www.reddit.com/submit?url=${window.location.href}`}
+              target="_blank"
+              className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaReddit size={20} className="text-white" />
             </a>
           </div>
           <div className="flex items-center bg-gray-700 rounded overflow-hidden">
-            <input type="text" value={currentURL} readOnly className="bg-gray-700 text-white p-2 flex-1" />
-            <button onClick={copyToClipboard} className="bg-blue-600 p-2"><Copy className="text-white" size={16} /></button>
+            <input
+              type="text"
+              value={window.location.href}
+              readOnly
+              className="bg-gray-700 text-white p-2 flex-1"
+            />
+            <button onClick={copyToClipboard} className="bg-blue-600 p-2">
+              <Copy size={16} className="text-white" />
+            </button>
           </div>
         </div>
       )}
 
-      <button className="mt-4 px-6 mr-86 py-2 rounded-md text-white transition-all"
-        onClick={toggleAds}
-        style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}>
+      <button
+        className={`mt-4 px-6 py-2 rounded-md text-white transition-all ${
+          showChat ? "mr-86" : ""
+        }`}
+        onClick={() => setAdsDisabled(!adsDisabled)}
+        style={{ backgroundColor: adsDisabled ? "#DC3545" : "#17A56B" }}
+      >
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
       </button>
 
-      <div className="w-[70%] flex justify-center mt-4 mr-82">
-        <PredictionPoll />
-      </div>
       <ToastContainer />
     </div>
   );
