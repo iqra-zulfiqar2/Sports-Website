@@ -22,7 +22,8 @@ import LiveChat from "./components/LiveChat.jsx";
 import { generateToken, messaging } from "./notifications/firebase.js";
 import { onMessage } from "firebase/messaging";
 import Chatango from "./components/Chatango.jsx";
-import PredictionPoll from "./components/PredictionPoll.jsx";
+import PSL from "./components/PredictionPoll/PSL.jsx";
+import IPL from "./components/PredictionPoll/IPL.jsx";
 import IPLPage from "./components/IPLPage.jsx";
 import Chat from "./components/LiveChat/Chat.jsx";
 import IPLChat from "./components/LiveChat/IPLChat.jsx";
@@ -69,7 +70,8 @@ function App() {
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/livechat" element={<Chat />} />
         <Route path="/iplchat" element={<IPLChat />} />
-        <Route path="/poll" element={<PredictionPoll />} />
+        <Route path="/psl-poll" element={<PSL />} />
+        <Route path="/ipl-poll" element={<IPL />} />
         <Route path="/schedule/international" element={<International />} />
         <Route path="/schedule/domestic-others" element={<Domestic />} />
         <Route path="/schedule/t20-leagues" element={<League />} />

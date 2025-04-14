@@ -13,6 +13,7 @@ import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import IPLChat from "./LiveChat/IPLChat.jsx";
+import IPL from "./PredictionPoll/IPL.jsx";
 
 const iplData = {
   name: "IPL",
@@ -297,6 +298,15 @@ const IPLPage = () => {
       >
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
       </button>
+
+      {/* ✅ Updated IPL component container */}
+      <div
+        className={`flex justify-center mt-4 transition-all duration-300 ${
+          showChat ? "w-[70%] mr-84" : "w-full"
+        }`}
+      >
+        <IPL />
+      </div>
 
       <ToastContainer />
     </div>

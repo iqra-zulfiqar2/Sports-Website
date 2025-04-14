@@ -130,6 +130,16 @@ const Navbar = () => {
         "https://livematchzone.com/wp-content/uploads/2025/01/Astro-Cricket.jpg",
     },
     {
+      name: "Star Sports 1",
+      image:
+        "https://livematchzone.com/wp-content/uploads/2025/01/Star-Sports-1.jpg",
+    },
+    {
+      name: "Star Sports 2",
+      image:
+        "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-2.jpg",
+    },
+    {
       name: "Star Sports 3",
       image:
         "https://livematchzone.com/wp-content/uploads/2025/01/star-sports-3.jpg",
@@ -220,7 +230,7 @@ const Navbar = () => {
           <img
             src={mainLogo}
             alt="Logo"
-            className="h-16 mr-4 ml-2 cursor-pointer"
+            className="h-15 mr-4 ml-2 cursor-pointer"
           />
         </Link>
 

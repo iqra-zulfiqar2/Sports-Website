@@ -66,25 +66,28 @@ const Chat = ({ onToggleChat, showChat }) => {
     return () => unsubscribe();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!newMessage.trim() || !isAuthenticated) return;
-
-    const user = auth.currentUser;
-    const username = getFirstName();
-
-    try {
-      await addDoc(messageRef, {
-        text: newMessage.trim(),
-        createdAt: serverTimestamp(),
-        user: username,
-        uid: user.uid,
-      });
-      setNewMessage("");
-    } catch (error) {
-      console.error("Failed to send message:", error);
-    }
-  };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (!newMessage.trim() || !isAuthenticated) return;
+    
+      const user = auth.currentUser;
+      const username = getFirstName();
+      const messageToSend = newMessage.trim();
+    
+      setNewMessage(""); // Clear input right away
+    
+      try {
+        await addDoc(messageRef, {
+          text: messageToSend,
+          createdAt: serverTimestamp(),
+          user: username,
+          uid: user.uid,
+        });
+      } catch (error) {
+        console.error("Failed to send message:", error);
+      }
+    };
+    
 
   const handleInputClick = () => {
     if (!isAuthenticated) {

@@ -72,22 +72,25 @@ const PSLChat = ({ onToggleChat, showChat }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newMessage.trim() || !isAuthenticated) return;
-
-    const currentUser = auth.currentUser;
+  
+    const user = auth.currentUser;
     const username = getFirstName();
-
+    const messageToSend = newMessage.trim();
+  
+    setNewMessage(""); // Clear input right away
+  
     try {
       await addDoc(messageRef, {
-        text: newMessage.trim(),
+        text: messageToSend,
         createdAt: serverTimestamp(),
         user: username,
-        uid: currentUser.uid,
+        uid: user.uid,
       });
-      setNewMessage("");
     } catch (error) {
-      console.error("Message send failed:", error);
+      console.error("Failed to send message:", error);
     }
   };
+  
 
   const handleInputClick = () => {
     if (!isAuthenticated) {

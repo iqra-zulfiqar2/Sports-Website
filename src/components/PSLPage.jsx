@@ -5,7 +5,7 @@ import { GoScreenFull, GoScreenNormal } from "react-icons/go";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PSLChat from "./LiveChat/PSLChat.jsx";
-import PredictionPoll from "./PredictionPoll.jsx";
+import PSL from "./PredictionPoll/PSL.jsx";
 
 const pslData = {
   name: "PSL",
@@ -209,8 +209,13 @@ const PSLPage = () => {
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
       </button>
 
-      <div className="w-[70%] flex justify-center mt-4 mr-82">
-        <PredictionPoll />
+       {/* ✅ Updated PSL component container */}
+       <div
+        className={`flex justify-center mt-4 transition-all duration-300 ${
+          showChat ? "w-[70%] mr-84" : "w-full"
+        }`}
+      >
+        <PSL />
       </div>
 
       <ToastContainer />
