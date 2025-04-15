@@ -40,7 +40,7 @@ const ChannelSection = () => {
   return (
     <section className="bg-black text-white py-12 px-1 w-full">
       <div className="w-full">
-        <h2 className="text-3xl md:text-4xl font-bold text-left mb-9 w-full">
+        <h2 className="text-3xl md:text-4xl font-bold text-left mb-6 w-full">
           Enjoy Free Live Streaming On These Channels
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 w-full px-1">

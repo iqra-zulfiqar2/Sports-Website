@@ -12,16 +12,15 @@ import {
 import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import IPLChat from "./LiveChat/IPLChat.jsx";
-import IPL from "./PredictionPoll/IPL.jsx";
+import Chat from "./LiveChat/Chat.jsx";
 
-const iplData = {
-  name: "IPL",
-  src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
-  url: "https://tamashalive.github.io/willow-cricket.html",
+const bplData = {
+    name: "BPL",
+    src: "https://livematchzone.com/wp-content/uploads/2025/03/BPL-League.webp",
+    url: "https://tamashalive.github.io/star-sports-hindi.html",
 };
 
-const IPLPage = () => {
+const BPLPage = () => {
   const videoWrapperRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -44,7 +43,7 @@ const IPLPage = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `Watch Free Live ${iplData.name} Online`;
+    document.title = `Watch Free Live ${bplData.name} Online`;
   }, []);
 
   const formatCount = (num) => {
@@ -118,7 +117,7 @@ const IPLPage = () => {
         }`}
       >
         <h1 className={`text-3xl font-bold ${showChat ? "mr-86" : "mx-auto"}`}>
-          Watch Free Live {iplData.name} Online
+          Watch Free Live {bplData.name} Online
         </h1>
         <marquee className="text-[#17A56B] font-bold text-lg w-[50%]">
           Click "Unmute Stream" Button to Get Voice
@@ -143,14 +142,12 @@ const IPLPage = () => {
             </div>
           ) : (
             <iframe
-              className={`w-full h-full rounded-t-lg ${
-                adsDisabled ? "pointer-events-none" : ""
-              }`}
-              src={iplData.url}
+              className="w-full h-full rounded-t-lg"
+              src={bplData.url}
               frameBorder="0"
               allowFullScreen
               title="Live Stream"
-            />
+            ></iframe>
           )}
 
           {isPlaying && (
@@ -174,12 +171,12 @@ const IPLPage = () => {
           >
             <div className="flex items-center gap-3">
               <img
-                src={iplData.src}
-                alt={iplData.name}
+                src={bplData.src}
+                alt={bplData.name}
                 className="w-12 h-12 border-2 border-white rounded-md"
               />
               <span className="text-white font-semibold text-lg">
-                {iplData.name}
+                {bplData.name}
               </span>
             </div>
 
@@ -224,7 +221,7 @@ const IPLPage = () => {
 
         {showChat ? (
           <div className="w-[30%] ml-4">
-            <IPLChat onToggleChat={toggleChat} showChat={showChat} />
+            <Chat onToggleChat={toggleChat} showChat={showChat} />
           </div>
         ) : (
           <button
@@ -301,18 +298,10 @@ const IPLPage = () => {
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
       </button>
 
-      {/* ✅ Updated IPL component container */}
-      <div
-        className={`flex justify-center mt-4 transition-all duration-300 ${
-          showChat ? "w-[70%] mr-84" : "w-full"
-        }`}
-      >
-        <IPL />
-      </div>
 
       <ToastContainer />
     </div>
   );
 };
 
-export default IPLPage;
+export default BPLPage;

@@ -18,57 +18,21 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const generateSlug = (name) => {
-    return name
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "");
-  };
+  const generateSlug = (name) =>
+    name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
 
   const footballItems = [
     { name: "UEFA Champions League" },
     { name: "Premier League" },
     { name: "La Liga" },
-    { name: "EPL" },
   ];
 
-  const cricketItems = [{ name: "BPL" }, { name: "IPL" }, { name: "ILT20" }];
-
-  const channelsItems = [
-    { name: "Willow Sports"},
-    { name: "Sky Sports" },
-    {
-      name: "TNT Sports 1",
-      submenu: ["TNT Sports 2", "TNT Sports 3", "TNT Sports 4"],
-    },
-    { name: "A Sports" },
-    { name: "PTV Sports" },
-    { name: "T Sports HD" },
-    {
-      name: "Star Sports 1",
-      submenu: ["Star Sports 2", "Star Sports 3"],
-    },
-    { name: "SuperSport" },
-    { name: "Ten Sports" },
-    { name: "Astro Cricket" },
-    { name: "Willow 2"},
-    { name: "GTV"},
-    { name: "Fox Sports"},
+  const cricketItems = [
+    { name: "BPL" },
+    { name: "IPL" },
+    { name: "ILT20" },
+    { name: "PSL" },
   ];
-
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.target.closest(".dropdown")) {
-        setActiveDropdown(null);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   const leagueItems = [
     {
@@ -107,6 +71,7 @@ const Navbar = () => {
         "https://livematchzone.com/wp-content/uploads/2025/03/ILT20-League.webp",
     },
   ];
+
 
   const channelItems = [
     {
@@ -171,6 +136,39 @@ const Navbar = () => {
       image: foxsports,
     },
   ];
+  const channelsItems = [
+    { name: "Willow Sports"},
+    { name: "Sky Sports" },
+    {
+      name: "TNT Sports 1",
+      submenu: ["TNT Sports 2", "TNT Sports 3", "TNT Sports 4"],
+    },
+    { name: "A Sports" },
+    { name: "PTV Sports" },
+    { name: "T Sports HD" },
+    {
+      name: "Star Sports 1",
+      submenu: ["Star Sports 2", "Star Sports 3"],
+    },
+    { name: "SuperSport" },
+    { name: "Ten Sports" },
+    { name: "Astro Cricket" },
+    { name: "Willow 2"},
+    { name: "GTV"},
+    { name: "Fox Sports"},
+  ];
+
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".dropdown")) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -190,70 +188,72 @@ const Navbar = () => {
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (searchResults.length > 0) {
-        let allItems = searchResults.flatMap((group) => group.items);
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-          e.preventDefault();
-          setActiveIndex((prev) =>
-            e.key === "ArrowDown"
-              ? (prev + 1) % allItems.length
-              : (prev - 1 + allItems.length) % allItems.length
-          );
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          handleSearchSelect(allItems[activeIndex]);
-        }
-      }
-    };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [searchResults, activeIndex]);
+  const handleCricketNavigation = (name) => {
+    const slug = name.toLowerCase();
+    if (slug === "ipl") {
+      navigate("/cricket/t20-league/watch-live-free-ipl-matches");
+    } else if (slug === "psl") {
+      navigate("/cricket/t20-league/watch-live-free-psl-matches");
+    } else if (slug === "bpl") {
+      navigate("/cricket/t20-league/watch-live-free-bpl-matches");
+    } else if (slug === "ilt20") {
+      navigate("/cricket/t20-league/watch-live-free-ilt20-matches");
+    } else {
+      navigate(`/league/${generateSlug(name)}`);
+    }
+    setActiveDropdown(null);
+  };
+
+  const handleFootballNavigation = (name) => {
+    navigate(`/${generateSlug(name)}-live-streaming-free/`);
+    setActiveDropdown(null);
+  };
 
   const handleSearchSelect = (item) => {
     setSearchTerm("");
     setSearchResults([]);
-
-    if (leagueItems.some((league) => league.name === item.name)) {
-      navigate(`/league/${generateSlug(item.name)}`);
+  
+    const isFootball = footballItems.some((f) => f.name === item.name);
+    const isCricket = cricketItems.some((c) => c.name === item.name);
+  
+    if (isFootball) {
+      navigate(`/${generateSlug(item.name)}-live-streaming-free/`);
+    } else if (isCricket) {
+      const slug = item.name.toLowerCase();
+      if (slug === "ipl") {
+        navigate("/cricket/t20-league/watch-live-free-ipl-matches");
+      } else if (slug === "psl") {
+        navigate("/cricket/t20-league/watch-live-free-psl-matches");
+      } else if (slug === "bpl") {
+        navigate("/cricket/t20-league/watch-live-free-bpl-matches");
+      } else if (slug === "ilt20") {
+        navigate("/cricket/t20-league/watch-live-free-ilt20-matches");
+      } else {
+        navigate(`/league/${generateSlug(item.name)}`);
+      }
     } else if (channelItems.some((channel) => channel.name === item.name)) {
       navigate(`/channel/${generateSlug(item.name)}`);
     }
   };
+  
+
+
 
   return (
     <nav className="bg-black text-white p-1 flex items-center justify-between relative z-50 shadow-md">
       <div className="flex items-center space-x-6">
         <Link to="/">
-          <img
-            src={mainLogo}
-            alt="Logo"
-            className="h-15 mr-4 ml-2 cursor-pointer"
-          />
+          <img src={mainLogo} alt="Logo" className="h-15 mr-4 ml-2 cursor-pointer" />
         </Link>
 
-        <Link to="/" className="text-[#17A56B] font-semibold hover:text-white">
-          Home
-        </Link>
-        <Link
-          to="/live-scores"
-          className="text-white font-semibold hover:text-[#17A56B]"
-        >
-          Live Scores
-        </Link>
-        <Link
-          to="/schedule"
-          className="text-white font-semibold hover:text-[#17A56B]"
-        >
-          Schedule
-        </Link>
+        <Link to="/" className="text-[#17A56B] font-semibold hover:text-white">Home</Link>
+        <Link to="/live-scores" className="text-white font-semibold hover:text-[#17A56B]">Live Scores</Link>
+        <Link to="/schedule" className="text-white font-semibold hover:text-[#17A56B]">Schedule</Link>
 
-           {/* Football Dropdown */}
-           <div
+        {/* Football Dropdown */}
+        <div
           className="relative dropdown"
-          tabIndex="0"
           onMouseEnter={() => setActiveDropdown("football")}
         >
           <button className="font-semibold hover:text-[#17A56B] transition">
@@ -264,10 +264,7 @@ const Navbar = () => {
               {footballItems.map((item, index) => (
                 <span
                   key={index}
-                  onClick={() => {
-                    navigate(`/league/${generateSlug(item.name)}`);
-                    setActiveDropdown(null);
-                  }}
+                  onClick={() => handleFootballNavigation(item.name)}
                   className="block px-4 py-2 hover:bg-white hover:text-[#17A56B] cursor-pointer transition"
                 >
                   {item.name}
@@ -280,7 +277,6 @@ const Navbar = () => {
         {/* Cricket Dropdown */}
         <div
           className="relative dropdown"
-          tabIndex="0"
           onMouseEnter={() => setActiveDropdown("cricket")}
         >
           <button className="font-semibold hover:text-[#17A56B] transition">
@@ -291,10 +287,7 @@ const Navbar = () => {
               {cricketItems.map((item, index) => (
                 <span
                   key={index}
-                  onClick={() => {
-                    navigate(`/league/${generateSlug(item.name)}`);
-                    setActiveDropdown(null);
-                  }}
+                  onClick={() => handleCricketNavigation(item.name)}
                   className="block px-4 py-2 hover:bg-white hover:text-[#17A56B] cursor-pointer transition"
                 >
                   {item.name}
@@ -303,7 +296,8 @@ const Navbar = () => {
             </div>
           )}
         </div>
-                 {/* Channels Dropdown */}
+
+    {/* Channels Dropdown */}
         <div
           className="relative dropdown"
           onMouseEnter={() => setActiveDropdown("channels")}
@@ -318,7 +312,9 @@ const Navbar = () => {
                 <div key={index} className="relative">
                   <span
                     onMouseEnter={() =>
-                      channel.submenu ? setActiveSubmenu(channel.name) : setActiveSubmenu(null)
+                      channel.submenu
+                        ? setActiveSubmenu(channel.name)
+                        : setActiveSubmenu(null)
                     }
                     onClick={() => {
                       if (!channel.submenu) {
@@ -390,7 +386,9 @@ const Navbar = () => {
                       key={index}
                       onClick={() => handleSearchSelect(item)}
                       className={`flex items-center px-4 py-2 cursor-pointer transition ${
-                        activeIndex === index ? "bg-[#2A2B2F]" : "hover:bg-gray-800"
+                        activeIndex === index
+                          ? "bg-[#2A2B2F]"
+                          : "hover:bg-gray-800"
                       }`}
                     >
                       <img

@@ -8,6 +8,7 @@ import kkr from "../../assets/ipl/kkr.png";
 import srh from "../../assets/ipl/srh.png";
 import lsg from "../../assets/ipl/lsg.png";
 import gt from "../../assets/ipl/gt.jpg";
+import pk from "../../assets/ipl/pk.png";
 
 const IPL = () => {
   const [teams, setTeams] = useState(null);
@@ -249,6 +250,7 @@ const IPL = () => {
     "Sunrisers Hyderabad": srh,
     "Lucknow Super Giants": lsg,
     "Gujarat Titans": gt,
+    "Punjab Kings": pk,
   };
 
   useEffect(() => {

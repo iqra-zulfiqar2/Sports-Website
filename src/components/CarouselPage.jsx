@@ -25,14 +25,19 @@ const slides = [
 
 const t20Leagues = [
   {
+    name: "IPL",
+    src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
+    slug: "ipl",
+  },
+  {
     name: "BPL",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/BPL-League.webp",
     slug: "bpl",
   },
   {
-    name: "PAK VS NZ",
-    src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-vs-New-Zealand-1.webp",
-    slug: "pakistan-vs-new-zealand",
+    name: "PSL",
+    src: "https://livematchzone.com/wp-content/uploads/2025/03/Pakistan-Super-League.webp",
+    slug: "psl",
   },
   {
     name: "ILT20",
@@ -46,11 +51,6 @@ const footballLeagues = [
     name: "La Liga",
     src: "https://livematchzone.com/wp-content/uploads/2025/03/La-Liga-1024x597.webp",
     slug: "la-liga",
-  },
-  {
-    name: "EPL",
-    src: "https://livematchzone.com/wp-content/uploads/2025/03/Pages-Banners.webp",
-    slug: "epl",
   },
   {
     name: "Premier League",
@@ -79,9 +79,11 @@ const CarouselPage = () => {
     const slug = slides[currentSlide].slug;
   
     if (slug === "ipl") {
-      navigate("/ipl");
+      navigate("/cricket/t20-league/watch-live-free-ipl-matches");
     } else if (slug === "psl") {
-      navigate("/psl"); // This should match the route that renders PSLPage
+      navigate("/cricket/t20-league/watch-live-free-psl-matches");
+    } else if (slug === "uefa-champions-league") {
+      navigate("/uefa-champions-league-live-streaming-free/");
     } else {
       navigate(`/league/${slug}`);
     }
@@ -113,7 +115,7 @@ const CarouselPage = () => {
 
   return (
     <div className="w-full text-white">
-      <div className="relative w-full h-[500px] overflow-hidden mb-10">
+      <div className="relative w-full h-[525px] overflow-hidden mb-5">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -161,27 +163,42 @@ const CarouselPage = () => {
                 src={league.src}
                 alt={league.name}
                 className="w-full rounded-lg cursor-pointer"
-                onClick={() => navigate(`/league/${league.slug}`)}
+                onClick={() => {
+                  if (league.slug === "ipl") {
+                    navigate("/cricket/t20-league/watch-live-free-ipl-matches");
+                  } else if (league.slug === "psl") {
+                    navigate("/cricket/t20-league/watch-live-free-psl-matches");
+                  } else if (league.slug === "bpl") {
+                    navigate("/cricket/t20-league/watch-live-free-bpl-matches");
+                  } else if (league.slug === "ilt20") {
+                    navigate("/cricket/t20-league/watch-live-free-ilt20-matches");
+                  }
+                  else {
+                    navigate(`/league/${league.slug}`);
+                  }
+                }}
               />
             </div>
           ))}
         </Slider>
 
-        <h2 className="text-3xl text-white font-bold mt-10 mb-4">
+        <h2 className="text-3xl text-white font-bold mt-5 mb-4">
           Football League
         </h2>
         <Slider {...sliderSettings} className="w-full">
-          {footballLeagues.map((league, index) => (
-            <div key={index} className="px-1">
-              <img
-                src={league.src}
-                alt={league.name}
-                className="w-full rounded-lg cursor-pointer"
-                onClick={() => navigate(`/league/${league.slug}`)}
-              />
-            </div>
-          ))}
-        </Slider>
+  {footballLeagues.map((league, index) => (
+    <div key={index} className="px-1">
+      <img
+        src={league.src}
+        alt={league.name}
+        className="w-full rounded-lg cursor-pointer"
+        onClick={() =>
+          navigate(`/${league.slug}-live-streaming-free/`)
+        }
+      />
+    </div>
+  ))}
+</Slider>
       </div>
     </div>
   );

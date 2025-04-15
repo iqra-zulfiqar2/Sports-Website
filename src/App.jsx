@@ -18,10 +18,8 @@ import League from "./components/ScheduleCategories/League.jsx";
 import International from "./components/ScheduleCategories/International.jsx";
 import Domestic from "./components/ScheduleCategories/Domestic.jsx";
 import GamePage from "./components/GamePage.jsx";
-import LiveChat from "./components/LiveChat.jsx";
 import { generateToken, messaging } from "./notifications/firebase.js";
 import { onMessage } from "firebase/messaging";
-import Chatango from "./components/Chatango.jsx";
 import PSL from "./components/PredictionPoll/PSL.jsx";
 import IPL from "./components/PredictionPoll/IPL.jsx";
 import IPLPage from "./components/IPLPage.jsx";
@@ -30,6 +28,12 @@ import IPLChat from "./components/LiveChat/IPLChat.jsx";
 import Auth from "./components/Authentication/Auth.jsx";
 import Cookies from 'universal-cookie';
 import PSLPage from "./components/PSLPage.jsx";
+import BPLPage from "./components/BPLPage.jsx";
+import ILT20Page from "./components/ILT20Page.jsx";
+import PremierLeaguePage from "./components/PremierLeaguePage.jsx";
+import LaLigaPage from "./components/LaLigaPage.jsx";
+import UCLPage from "./components/UCLPage.jsx";
+
 const cookies = new Cookies();
 
 
@@ -52,8 +56,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
-        <Route path="/ipl" element={<IPLPage />} />
-        <Route path="/psl" element={<PSLPage />} />
+
+        <Route path="/cricket/t20-league/watch-live-free-bpl-matches" element={<BPLPage />} />
+        <Route path="/cricket/t20-league/watch-live-free-ilt20-matches" element={<ILT20Page />} />
+        <Route path="/cricket/t20-league/watch-live-free-ipl-matches" element={<IPLPage />} />
+        <Route path="/cricket/t20-league/watch-live-free-psl-matches" element={<PSLPage />} />
+
+        <Route path="/la-liga-live-streaming-free/" element={<LaLigaPage />} />
+        <Route path="/premier-league-live-streaming-free/" element={<PremierLeaguePage />} />
+        <Route path="/uefa-champions-league-live-streaming-free/" element={<UCLPage />} />
+
         <Route path="/channel/:slug" element={<ChannelPage />} />
         <Route path="/games" element={<GamePage />} />
         <Route path="/live-scores/:tabSlug" element={<LiveScores />} />

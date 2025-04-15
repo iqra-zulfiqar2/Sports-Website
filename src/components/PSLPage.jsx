@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaEye } from "react-icons/fa6";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { GoScreenFull, GoScreenNormal } from "react-icons/go";
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+import { CiShare2 } from "react-icons/ci";
+import {
+  FaFacebook,
+  FaXTwitter,
+  FaWhatsapp,
+  FaReddit,
+  FaEye,
+} from "react-icons/fa6";
+import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PSLChat from "./LiveChat/PSLChat.jsx";
@@ -13,6 +21,7 @@ const pslData = {
   url: "https://tamashalive.github.io/ten-sports.html",
 };
 
+
 const PSLPage = () => {
   const videoWrapperRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -21,8 +30,9 @@ const PSLPage = () => {
   const [dislikes, setDislikes] = useState(10);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
-  const [viewerCount, setViewerCount] = useState(405);
+  const [showShareModal, setShowShareModal] = useState(false);
   const [adsDisabled, setAdsDisabled] = useState(false);
+  const [viewerCount, setViewerCount] = useState(405);
   const [showChat, setShowChat] = useState(true);
 
   const toggleChat = () => setShowChat(!showChat);
@@ -36,15 +46,6 @@ const PSLPage = () => {
 
   useEffect(() => {
     document.title = `Watch Free Live ${pslData.name} Online`;
-  }, []);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () =>
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
   const formatCount = (num) => {
@@ -72,6 +73,9 @@ const PSLPage = () => {
     }
   };
 
+  const handleShare = () => setShowShareModal(true);
+  const closeModal = () => setShowShareModal(false);
+
   const toggleFullscreen = () => {
     if (!isFullscreen) {
       videoWrapperRef.current?.requestFullscreen?.();
@@ -80,6 +84,32 @@ const PSLPage = () => {
     }
     setIsFullscreen(!isFullscreen);
   };
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        toast.success("Copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      })
+      .catch((error) => console.error("Failed to copy:", error));
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-black text-white">
@@ -114,12 +144,14 @@ const PSLPage = () => {
             </div>
           ) : (
             <iframe
-              className="w-full h-full rounded-t-lg"
+              className={`w-full h-full rounded-t-lg ${
+                adsDisabled ? "pointer-events-none" : ""
+              }`}
               src={pslData.url}
               frameBorder="0"
               allowFullScreen
               title="Live Stream"
-            ></iframe>
+            />
           )}
 
           {isPlaying && (
@@ -172,6 +204,12 @@ const PSLPage = () => {
                 <AiOutlineDislike size={18} /> {formatCount(dislikes)}
               </button>
               <button
+                onClick={handleShare}
+                className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
+              >
+                <CiShare2 size={18} />
+              </button>
+              <button
                 onClick={toggleFullscreen}
                 className="p-2 rounded-lg bg-white text-black hover:bg-gray-300 transition-all"
               >
@@ -199,6 +237,61 @@ const PSLPage = () => {
         )}
       </div>
 
+      {showShareModal && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-[#1E1F26] p-5 rounded-lg shadow-lg w-[350px] z-50">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-white text-lg font-bold">Share this game</h3>
+            <button
+              onClick={closeModal}
+              className="text-gray-400 hover:text-white"
+            >
+              ✖
+            </button>
+          </div>
+          <div className="flex gap-3 mb-4 justify-center">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
+              target="_blank"
+              className="bg-blue-600 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaFacebook size={20} className="text-white" />
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
+              target="_blank"
+              className="bg-black p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaXTwitter size={20} className="text-white" />
+            </a>
+            <a
+              href={`https://api.whatsapp.com/send?text=${window.location.href}`}
+              target="_blank"
+              className="bg-green-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaWhatsapp size={20} className="text-white" />
+            </a>
+            <a
+              href={`https://www.reddit.com/submit?url=${window.location.href}`}
+              target="_blank"
+              className="bg-red-500 p-2 rounded flex items-center justify-center w-10 h-10"
+            >
+              <FaReddit size={20} className="text-white" />
+            </a>
+          </div>
+          <div className="flex items-center bg-gray-700 rounded overflow-hidden">
+            <input
+              type="text"
+              value={window.location.href}
+              readOnly
+              className="bg-gray-700 text-white p-2 flex-1"
+            />
+            <button onClick={copyToClipboard} className="bg-blue-600 p-2">
+              <Copy size={16} className="text-white" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <button
         className={`mt-4 px-6 py-2 rounded-md text-white transition-all ${
           showChat ? "mr-86" : ""
@@ -209,8 +302,8 @@ const PSLPage = () => {
         {adsDisabled ? "Enable Ads" : "Disable Ads"}
       </button>
 
-       {/* ✅ Updated PSL component container */}
-       <div
+      {/* ✅ Updated IPL component container */}
+      <div
         className={`flex justify-center mt-4 transition-all duration-300 ${
           showChat ? "w-[70%] mr-84" : "w-full"
         }`}

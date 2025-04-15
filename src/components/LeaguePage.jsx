@@ -16,6 +16,8 @@ import { Copy } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Chat from "./LiveChat/Chat.jsx";
+import { useNavigate } from "react-router-dom";
+
 
 // League data with proper slug mapping
 const leaguesData = {
@@ -85,6 +87,13 @@ const LeaguePage = () => {
   // ✅ Chat toggle logic
   const [showChat, setShowChat] = useState(true);
   const toggleChat = () => setShowChat(!showChat);
+
+  const navigate = useNavigate();
+
+const handleLeagueChange = (newSlug) => {
+  navigate(`/cricket/t20-league/watch-live-free-${newSlug}/`);
+};
+
 
   useEffect(() => {
     const interval = setInterval(() => {
