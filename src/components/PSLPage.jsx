@@ -144,14 +144,14 @@ const PSLPage = () => {
             </div>
           ) : (
             <iframe
-              className={`w-full h-full rounded-t-lg ${
-                adsDisabled ? "pointer-events-none" : ""
-              }`}
-              src={pslData.url}
-              frameBorder="0"
-              allowFullScreen
-              title="Live Stream"
-            />
+            className={`w-full h-full rounded-t-lg ${
+              adsDisabled ? "pointer-events-none" : ""
+            }`}
+            src={pslData.url}
+            frameBorder="0"
+            allowFullScreen
+            title="Live Stream"
+          />
           )}
 
           {isPlaying && (

@@ -268,15 +268,15 @@ const ChannelPage = () => {
           } transition-all duration-300 aspect-video bg-black rounded-lg relative`}
         >
           {videoUrl ? (
-            <iframe
-              ref={iframeRef}
-              className="w-full h-full rounded-t-lg"
-              src={videoUrl}
-              frameBorder="0"
-              allowFullScreen
-              allow="encrypted-media"
-              title="Live Stream"
-            ></iframe>
+               <iframe
+               className={`w-full h-full rounded-t-lg ${
+                 adsDisabled ? "pointer-events-none" : ""
+               }`}
+               src={videoUrl.url}
+               frameBorder="0"
+               allowFullScreen
+               title="Live Stream"
+             />
           ) : (
             <div className="flex items-center justify-center bg-black h-full">
               <button

@@ -142,12 +142,14 @@ const PremierLeaguePage = () => {
             </div>
           ) : (
             <iframe
-              className="w-full h-full rounded-t-lg"
+              className={`w-full h-full rounded-t-lg ${
+                adsDisabled ? "pointer-events-none" : ""
+              }`}
               src={premierleagueData.url}
               frameBorder="0"
               allowFullScreen
               title="Live Stream"
-            ></iframe>
+            />
           )}
 
           {isPlaying && (

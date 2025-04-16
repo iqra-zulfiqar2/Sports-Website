@@ -115,7 +115,7 @@ const CarouselPage = () => {
 
   return (
     <div className="w-full text-white">
-      <div className="relative w-full h-[525px] overflow-hidden mb-5">
+      <div className="relative w-full h-[540px] overflow-hidden mb-5">
         {slides.map((slide, index) => (
           <div
             key={index}

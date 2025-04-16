@@ -142,12 +142,14 @@ const BPLPage = () => {
             </div>
           ) : (
             <iframe
-              className="w-full h-full rounded-t-lg"
-              src={bplData.url}
-              frameBorder="0"
-              allowFullScreen
-              title="Live Stream"
-            ></iframe>
+            className={`w-full h-full rounded-t-lg ${
+              adsDisabled ? "pointer-events-none" : ""
+            }`}
+            src={bplData.url}
+            frameBorder="0"
+            allowFullScreen
+            title="Live Stream"
+          />
           )}
 
           {isPlaying && (

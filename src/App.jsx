@@ -33,6 +33,7 @@ import ILT20Page from "./components/ILT20Page.jsx";
 import PremierLeaguePage from "./components/PremierLeaguePage.jsx";
 import LaLigaPage from "./components/LaLigaPage.jsx";
 import UCLPage from "./components/UCLPage.jsx";
+import AdBanner from "./components/AdBanner.jsx";
 
 const cookies = new Cookies();
 
@@ -56,7 +57,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/league/:slug" element={<LeaguePage />} />
-
         <Route path="/cricket/t20-league/watch-live-free-bpl-matches" element={<BPLPage />} />
         <Route path="/cricket/t20-league/watch-live-free-ilt20-matches" element={<ILT20Page />} />
         <Route path="/cricket/t20-league/watch-live-free-ipl-matches" element={<IPLPage />} />
@@ -68,16 +68,11 @@ function App() {
 
         <Route path="/channel/:slug" element={<ChannelPage />} />
         <Route path="/games" element={<GamePage />} />
+        <Route path="/ad" element={<AdBanner />} />
         <Route path="/live-scores/:tabSlug" element={<LiveScores />} />
-        <Route
-          path="/live-scores"
-          element={<Navigate to="/live-scores/live-matches" replace />}
-        />{" "}
+        <Route path="/live-scores" element={<Navigate to="/live-scores/live-matches" replace />}/>{" "}
         {/* Default Redirect */}
-        <Route
-          path="/"
-          element={<Navigate to="/live-scores/live-matches" replace />}
-        />
+        <Route path="/" element={<Navigate to="/live-scores/live-matches" replace />}/>
         <Route path="/schedule/:category" element={<Schedule />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/livechat" element={<Chat />} />

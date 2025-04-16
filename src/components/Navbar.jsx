@@ -8,6 +8,7 @@ import gtv from "../assets/gtv.png";
 import foxsports from "../assets/foxsports.jpg";
 import logo1 from "../assets/logo1.png";
 import mainLogo from "../assets/mainLogo.png";
+import AdBanner from "./AdBanner.jsx";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -241,6 +242,7 @@ const Navbar = () => {
 
 
   return (
+    <>
     <nav className="bg-black text-white p-1 flex items-center justify-between relative z-50 shadow-md">
       <div className="flex items-center space-x-6">
         <Link to="/">
@@ -406,6 +408,10 @@ const Navbar = () => {
         )}
       </div>
     </nav>
+     <div className="flex justify-start mt-6 mb-10 ml-10">
+     <AdBanner />
+   </div>
+   </>
   );
 };
 

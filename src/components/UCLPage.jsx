@@ -142,12 +142,14 @@ const UCLPage = () => {
             </div>
           ) : (
             <iframe
-              className="w-full h-full rounded-t-lg"
-              src={uclData.url}
-              frameBorder="0"
-              allowFullScreen
-              title="Live Stream"
-            ></iframe>
+            className={`w-full h-full rounded-t-lg ${
+              adsDisabled ? "pointer-events-none" : ""
+            }`}
+            src={uclData.url}
+            frameBorder="0"
+            allowFullScreen
+            title="Live Stream"
+          />
           )}
 
           {isPlaying && (
