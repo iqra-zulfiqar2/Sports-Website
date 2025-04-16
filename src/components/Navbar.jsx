@@ -10,6 +10,7 @@ import logo1 from "../assets/logo1.png";
 import mainLogo from "../assets/mainLogo.png";
 import AdBanner from "./AdBanner.jsx";
 
+
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
@@ -408,9 +409,10 @@ const Navbar = () => {
         )}
       </div>
     </nav>
-     <div className="flex justify-start mt-6 mb-10 ml-10">
+    <div className="flex justify-start mt-6 mb-10 ml-10">
      <AdBanner />
    </div>
+
    </>
   );
 };

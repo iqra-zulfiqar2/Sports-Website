@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 const slides = [
   {
     image:
-      "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
+      "https://livematchzone.com/wp-content/uploads/2025/03/IPL-Premier-League.webp",
     slug: "ipl",
   },
   {
@@ -26,7 +26,7 @@ const slides = [
 const t20Leagues = [
   {
     name: "IPL",
-    src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-2025-Team-2.webp",
+    src: "https://livematchzone.com/wp-content/uploads/2025/03/IPL-Premier-League.webp",
     slug: "ipl",
   },
   {
@@ -115,7 +115,8 @@ const CarouselPage = () => {
 
   return (
     <div className="w-full text-white">
-      <div className="relative w-full h-[540px] overflow-hidden mb-5">
+      <div className="relative w-screen h-[650px] overflow-hidden mb-5">
+
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -123,11 +124,13 @@ const CarouselPage = () => {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            <img
-              src={slide.image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
+    <img
+  src={slide.image}
+  alt={`Slide ${index + 1}`}
+  className="w-full h-[650px] object-cover cursor-pointer"
+/>
+
+
           </div>
         ))}
 

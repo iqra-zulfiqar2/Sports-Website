@@ -29,6 +29,7 @@ const Home = () => {
       {/* WhatsApp Pop-up */}
       {showPopup && <WhatsAppPopup onClose={() => setShowPopup(false)} />}
 
+
       <CarouselPage />
       <ChannelSection />
 
