@@ -4,15 +4,18 @@ const AdBanner = () => {
   const bannerRef = useRef(null);
 
   useEffect(() => {
-    // Inject banner ad config
+    const isMobile = window.innerWidth < 768;
+    const bannerWidth = isMobile ? window.innerWidth : 728;
+    const bannerHeight = isMobile ? 50 : 90;
+
     const configScript = document.createElement("script");
     configScript.type = "text/javascript";
     configScript.innerHTML = `
       atOptions = {
         'key' : '329e4e16be857e74719c7bd77be59ed9',
         'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
+        'height' : ${bannerHeight},
+        'width' : ${bannerWidth},
         'params' : {}
       };
     `;
@@ -28,12 +31,11 @@ const AdBanner = () => {
       bannerRef.current.appendChild(bannerScript);
     }
 
-    // Inject popup ad script
+    // Optional: popup script
     const popupScript = document.createElement("script");
     popupScript.type = "text/javascript";
     popupScript.src = "//trashycontinuousbubbly.com/33/15/ed/3315edce9b2d181ee4fb1da4836791ce.js";
     popupScript.async = true;
-
     document.body.appendChild(popupScript);
   }, []);
 
@@ -43,9 +45,10 @@ const AdBanner = () => {
       style={{
         width: "100%",
         maxWidth: "728px",
-        height: "90px",
-        margin: "0",
-        textAlign: "left"
+        height: "auto",
+        marginLeft: "0",
+        textAlign: "left",
+        overflow: "hidden",
       }}
     />
   );

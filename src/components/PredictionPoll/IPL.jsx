@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getFirestore, doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
 import csk from "../../assets/ipl/csk.jpg";
 import mi from "../../assets/ipl/mi.png";
 import rcb from "../../assets/ipl/rcb.png";
@@ -9,6 +10,8 @@ import srh from "../../assets/ipl/srh.png";
 import lsg from "../../assets/ipl/lsg.png";
 import gt from "../../assets/ipl/gt.jpg";
 import pk from "../../assets/ipl/pk.png";
+
+const db = getFirestore();
 
 const IPL = () => {
   const [teams, setTeams] = useState(null);
@@ -240,6 +243,7 @@ const IPL = () => {
     { date: "2025-05-25", team1: "TBC", team2: "TBC" }, // Final
   ];
 
+
   const teamLogos = {
     "Chennai Super Kings": csk,
     "Mumbai Indians": mi,
@@ -254,48 +258,67 @@ const IPL = () => {
   };
 
   useEffect(() => {
-    const todayDate = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-
-    // Find today's match or the next match if none today
+    const todayDate = new Date().toISOString().split("T")[0];
+  
     let foundMatch = matchSchedule.find((match) => match.date === todayDate);
     let upcomingMatch = matchSchedule.find((match) => match.date > todayDate);
-
+  
     if (foundMatch) {
       setTeams({
         team1: foundMatch.team1,
         team2: foundMatch.team2,
       });
       setMatchStatus("Today's Match");
-    } else if (upcomingMatch) {
-      setTeams({
-        team1: upcomingMatch.team1,
-        team2: upcomingMatch.team2,
+  
+      const voteKey = `voted_${todayDate}`;
+      if (localStorage.getItem(voteKey)) {
+        setHasVoted(true);
+      }
+  
+      const docRef = doc(db, "iplVotes", todayDate);
+      const unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          setVotes(docSnap.data());
+        } else {
+          setDoc(docRef, { team1: 0, team2: 0 });
+        }
       });
-      setMatchStatus(`Next Match on ${upcomingMatch.date}`);
+  
+      return () => unsubscribe();
     } else {
-      setTeams(null);
-      setMatchStatus("No IPL match today");
+      if (upcomingMatch) {
+        setTeams({
+          team1: upcomingMatch.team1,
+          team2: upcomingMatch.team2,
+        });
+        setMatchStatus(`Next Match on ${upcomingMatch.date}`);
+      } else {
+        setTeams(null);
+        setMatchStatus("No IPL match today");
+      }
     }
-
-    // Fetch initial votes from Firebase Realtime Database
-    const fetchVotes = async () => {
-      const fetchedVotes = await getVotes(); // Get votes from Firebase
-      setVotes(fetchedVotes); // Set votes in state
-    };
-
-    fetchVotes(); // Call function to fetch votes from Firebase
   }, []);
+  
 
-  const handleVote = (team) => {
-    if (!hasVoted) {
-      const updatedVotes = { ...votes, [team]: votes[team] + 1 };
-      setVotes(updatedVotes);
+  const handleVote = async (teamKey) => {
+    const todayDate = new Date().toISOString().split("T")[0];
+    const voteKey = `voted_${todayDate}`;
+  
+    if (hasVoted || !teams) return;
+  
+    const docRef = doc(db, "iplVotes", todayDate);
+  
+    try {
+      await updateDoc(docRef, {
+        [teamKey]: votes[teamKey] + 1,
+      });
+      localStorage.setItem(voteKey, "true"); // store in browser
       setHasVoted(true);
-
-      // Save votes to Firebase Realtime Database
-      updateVotes(updatedVotes); // Update votes in Firebase
+    } catch (error) {
+      console.error("Error updating vote:", error);
     }
   };
+  
 
   const totalVotes = votes.team1 + votes.team2;
   const team1WinChance =
@@ -340,7 +363,7 @@ const IPL = () => {
             <button
               onClick={() => handleVote("team2")}
               disabled={hasVoted}
-              className={`flex items-center gap-1 px-2 py-2 rounded-lg font-semibold transition-all duration-300 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
                 hasVoted
                   ? "bg-[#17A56B] cursor-not-allowed"
                   : "bg-[#17A56B] hover:bg-green-700 active:scale-95"

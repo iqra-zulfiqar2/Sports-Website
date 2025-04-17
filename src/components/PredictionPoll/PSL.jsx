@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { doc, getDoc, setDoc, updateDoc, increment } from "firebase/firestore";
+import { doc, setDoc, updateDoc, increment, onSnapshot } from "firebase/firestore";
 import { db } from "../../notifications/firebase";
 
 // Team logos (local imports)
@@ -17,14 +17,42 @@ const PSL = () => {
   const [matchStatus, setMatchStatus] = useState("No PSL match today");
 
   const matchSchedule = [
+    { date: "2025-04-11", team1: "Lahore Qalandars", team2: "Islamabad United" },
+    { date: "2025-04-12", team1: "Quetta Gladiators", team2: "Peshawar Zalmi" },
+    { date: "2025-04-12", team1: "Multan Sultans", team2: "Karachi Kings" },
+    { date: "2025-04-13", team1: "Lahore Qalandars", team2: "Quetta Gladiators" },
     { date: "2025-04-14", team1: "Islamabad United", team2: "Peshawar Zalmi" },
-    { date: "2025-04-15", team1: "Karachi Kings", team2: "Lahore Qalandars" },
+    { date: "2025-04-15", team1: "Lahore Qalandars", team2: "Karachi Kings" },
     { date: "2025-04-16", team1: "Islamabad United", team2: "Multan Sultans" },
     { date: "2025-04-18", team1: "Karachi Kings", team2: "Quetta Gladiators" },
     { date: "2025-04-19", team1: "Multan Sultans", team2: "Peshawar Zalmi" },
     { date: "2025-04-20", team1: "Karachi Kings", team2: "Islamabad United" },
     { date: "2025-04-21", team1: "Karachi Kings", team2: "Peshawar Zalmi" },
+    { date: "2025-04-22", team1: "Multan Sultans", team2: "Lahore Qalandars" },
+    { date: "2025-04-23", team1: "Multan Sultans", team2: "Islamabad United" },
+    { date: "2025-04-24", team1: "Lahore Qalandars", team2: "Peshawar Zalmi" },
+    { date: "2025-04-25", team1: "Karachi Kings", team2: "Quetta Gladiators" },
+    { date: "2025-04-26", team1: "Lahore Qalandars", team2: "Multan Sultans" },
+    { date: "2025-04-27", team1: "Peshawar Zalmi", team2: "Quetta Gladiators" },
+    { date: "2025-04-29", team1: "Multan Sultans", team2: "Quetta Gladiators" },
+    { date: "2025-04-30", team1: "Lahore Qalandars", team2: "Islamabad United" },
+    { date: "2025-05-01", team1: "Multan Sultans", team2: "Karachi Kings" },
+    { date: "2025-05-01", team1: "Lahore Qalandars", team2: "Quetta Gladiators" },
+    { date: "2025-05-02", team1: "Islamabad United", team2: "Peshawar Zalmi" },
+    { date: "2025-05-03", team1: "Islamabad United", team2: "Quetta Gladiators" },
+    { date: "2025-05-04", team1: "Lahore Qalandars", team2: "Karachi Kings" },
+    { date: "2025-05-05", team1: "Multan Sultans", team2: "Peshawar Zalmi" },
+    { date: "2025-05-07", team1: "Islamabad United", team2: "Quetta Gladiators" },
+    { date: "2025-05-08", team1: "Karachi Kings", team2: "Peshawar Zalmi" },
+    { date: "2025-05-09", team1: "Lahore Qalandars", team2: "Peshawar Zalmi" },
+    { date: "2025-05-10", team1: "Multan Sultans", team2: "Quetta Gladiators" },
+    { date: "2025-05-10", team1: "Islamabad United", team2: "Karachi Kings" },
+    { date: "2025-05-13", team1: "TBA", team2: "TBA" }, // Qualifier 1
+    { date: "2025-05-14", team1: "TBA", team2: "TBA" }, // Eliminator
+    { date: "2025-05-16", team1: "TBA", team2: "TBA" }, // Qualifier 2
+    { date: "2025-05-18", team1: "TBA", team2: "TBA" }, // Final
   ];
+  
 
   const teamLogos = {
     "Islamabad United": isb,
@@ -52,18 +80,22 @@ const PSL = () => {
       setMatchStatus("No PSL match today");
     }
 
-    const fetchVotes = async () => {
-      const voteDoc = doc(db, "votes", todayDate);
-      const voteSnap = await getDoc(voteDoc);
+    // Check if user already voted today using localStorage
+    const votedKey = `voted-${todayDate}`;
+    const hasVotedToday = localStorage.getItem(votedKey);
+    setHasVoted(!!hasVotedToday);
 
-      if (voteSnap.exists()) {
-        setVotes(voteSnap.data());
+    const voteDocRef = doc(db, "votes", todayDate);
+
+    const unsubscribe = onSnapshot(voteDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setVotes(docSnap.data());
       } else {
         setVotes({ team1: 0, team2: 0 });
       }
-    };
+    });
 
-    fetchVotes();
+    return () => unsubscribe();
   }, [todayDate]);
 
   const handleVote = async (team) => {
@@ -81,11 +113,9 @@ const PSL = () => {
         });
       }
 
-      setVotes((prevVotes) => ({
-        ...prevVotes,
-        [team]: prevVotes[team] + 1,
-      }));
-
+      // Mark as voted in localStorage for this date
+      const votedKey = `voted-${todayDate}`;
+      localStorage.setItem(votedKey, "true");
       setHasVoted(true);
     }
   };
@@ -144,7 +174,6 @@ const PSL = () => {
             </button>
           </div>
 
-          {/* Voting Results */}
           <div className="mt-5 text-sm text-white bg-green-950 rounded-lg p-3 space-y-1">
             <div>
               <span className="text-green-400 font-semibold">{team1WinChance}%</span>{" "}

@@ -66,7 +66,6 @@ const Home = () => {
               desktop – cricket is always with you.
             </li>
           </ul>
-
           <h2 className="text-2xl font-bold flex items-center gap-2 mt-8 mb-3">
             <span>🎙️</span> Expert Analysis & Match Highlights
           </h2>
@@ -82,13 +81,12 @@ const Home = () => {
           <ul className="text-lg text-gray-300 space-y-2">
             <li>✅ <strong>24/7 Live Cricket Streaming</strong></li>
             <li>✅ <strong>No Subscription Required</strong></li>
-            <li>✅ <strong>Fast & Ad-Free Experience (Optional)</strong></li>
+            <li>✅ <strong>Fast & Ad-Free Experience</strong></li>
             <li>✅ <strong>Exclusive Coverage & Match Previews</strong></li>
           </ul>
           <p className="text-lg text-gray-300 mt-4">
             💡 Never miss a six, a wicket, or a thrilling last-over finish! Stay connected to the game you love – watch live cricket now! 🏏🔥
           </p>
-
         </div>
       </section>
     </>
