@@ -126,24 +126,25 @@ const PSL = () => {
 
   return (
     <div className="bg-black border border-[#17A56B] text-white p-4 rounded-2xl w-full max-w-md mx-auto mt-10 shadow-xl">
-      <h1 className="text-2xl font-extrabold text-[#17A56B] mb-2">
+      <h1 className="text-2xl font-extrabold text-[#17A56B] mb-2 text-center">
         🏏 Who will win today's match?
       </h1>
-
+  
       {teams ? (
         <>
-          <div className="flex flex-col items-center justify-center mt-2">
+          <div className="flex flex-col items-center justify-center mt-2 text-center">
             <div className="text-lg font-medium text-white">
               {teams.team1} <span className="text-red-500">vs</span> {teams.team2}
             </div>
             <div className="text-sm text-gray-300 mb-1">{matchStatus}</div>
           </div>
-
-          <div className="flex justify-around mt-4 gap-2">
+  
+          {/* Responsive buttons */}
+          <div className="flex flex-col sm:flex-row justify-around mt-4 gap-3 sm:gap-2 w-full">
             <button
               onClick={() => handleVote("team1")}
               disabled={hasVoted}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full sm:w-auto ${
                 hasVoted
                   ? "bg-[#17A56B] cursor-not-allowed"
                   : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
@@ -156,10 +157,11 @@ const PSL = () => {
               />
               {teams.team1}
             </button>
+  
             <button
               onClick={() => handleVote("team2")}
               disabled={hasVoted}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full sm:w-auto ${
                 hasVoted
                   ? "bg-[#17A56B] cursor-not-allowed"
                   : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
@@ -173,8 +175,8 @@ const PSL = () => {
               {teams.team2}
             </button>
           </div>
-
-          <div className="mt-5 text-sm text-white bg-green-950 rounded-lg p-3 space-y-1">
+  
+          <div className="mt-5 text-sm text-white bg-green-950 rounded-lg p-3 space-y-1 text-center">
             <div>
               <span className="text-green-400 font-semibold">{team1WinChance}%</span>{" "}
               chance for <span className="font-medium">{teams.team1}</span>
@@ -183,16 +185,17 @@ const PSL = () => {
               <span className="text-green-400 font-semibold">{team2WinChance}%</span>{" "}
               chance for <span className="font-medium">{teams.team2}</span>
             </div>
-            <div className="text-lg text-white mt-2 flex flex-col items-center justify-center">
+            <div className="text-lg text-white mt-2">
               Total votes: {totalVotes}
             </div>
           </div>
         </>
       ) : (
-        <div className="text-sm text-gray-300">{matchStatus}</div>
+        <div className="text-sm text-gray-300 text-center">{matchStatus}</div>
       )}
     </div>
   );
+  
 };
 
 export default PSL;

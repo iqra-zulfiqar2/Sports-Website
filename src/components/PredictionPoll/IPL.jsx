@@ -326,81 +326,81 @@ const IPL = () => {
   const team2WinChance =
     totalVotes > 0 ? ((votes.team2 / totalVotes) * 100).toFixed(1) : 0;
 
-  return (
-    <div className="bg-black border border-[#17A56B] text-white p-4 rounded-2xl w-full max-w-md mx-auto mt-10 shadow-xl">
-      <h1 className="text-2xl font-extrabold text-[#17A56B] mb-2">
-        🏏 Who will win today's match?
-      </h1>
-
-      {teams ? (
-        <>
-          <div className="flex flex-col items-center justify-center mt-2">
-            <div className="text-lg font-medium text-white">
-              {teams.team1} <span className="text-red-500">vs</span>{" "}
-              {teams.team2}
+    return (
+      <div className="bg-black border border-[#17A56B] text-white p-4 sm:p-5 rounded-2xl w-[95%] max-w-md mx-auto mt-6 sm:mt-10 shadow-xl">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-[#17A56B] mb-2 text-center">
+          🏏 Who will win today's match?
+        </h1>
+    
+        {teams ? (
+          <>
+            <div className="flex flex-col items-center justify-center mt-2 text-center">
+              <div className="text-base sm:text-lg font-medium text-white">
+                {teams.team1} <span className="text-red-500">vs</span> {teams.team2}
+              </div>
+              <div className="text-sm text-gray-300 mb-1">{matchStatus}</div>
             </div>
-            <div className="text-sm text-gray-300 mb-1">{matchStatus}</div>
-          </div>
-
-          <div className="flex justify-around items-center mt-4 gap-2">
-            <button
-              onClick={() => handleVote("team1")}
-              disabled={hasVoted}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                hasVoted
-                  ? "bg-[#17A56B] cursor-not-allowed"
-                  : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
-              }`}
-            >
-              <img
-                src={teamLogos[teams.team1]}
-                alt={teams.team1}
-                className="w-8 h-8 rounded-full"
-              />
-              {teams.team1}
-            </button>
-
-            <button
-              onClick={() => handleVote("team2")}
-              disabled={hasVoted}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${
-                hasVoted
-                  ? "bg-[#17A56B] cursor-not-allowed"
-                  : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
-              }`}
-            >
-              <img
-                src={teamLogos[teams.team2]}
-                alt={teams.team2}
-                className="w-8 h-8 rounded-full"
-              />
-              {teams.team2}
-            </button>
-          </div>
-
-          <div className="mt-5 text-sm text-white bg-green-950 rounded-lg p-3 space-y-1">
-            <div>
-              <span className="text-green-400 font-semibold">
-                {team1WinChance}%
-              </span>{" "}
-              chance for <span className="font-medium">{teams.team1}</span>
+    
+            <div className="flex flex-col sm:flex-row justify-around items-center mt-4 gap-3">
+              <button
+                onClick={() => handleVote("team1")}
+                disabled={hasVoted}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full sm:w-auto justify-center ${
+                  hasVoted
+                    ? "bg-[#17A56B] cursor-not-allowed"
+                    : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
+                }`}
+              >
+                <img
+                  src={teamLogos[teams.team1]}
+                  alt={teams.team1}
+                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full"
+                />
+                <span className="text-sm sm:text-base">{teams.team1}</span>
+              </button>
+    
+              <button
+                onClick={() => handleVote("team2")}
+                disabled={hasVoted}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full sm:w-auto justify-center ${
+                  hasVoted
+                    ? "bg-[#17A56B] cursor-not-allowed"
+                    : "bg-[#17A56B] hover:bg-green-700 active:scale-95"
+                }`}
+              >
+                <img
+                  src={teamLogos[teams.team2]}
+                  alt={teams.team2}
+                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full"
+                />
+                <span className="text-sm sm:text-base">{teams.team2}</span>
+              </button>
             </div>
-            <div>
-              <span className="text-green-400 font-semibold">
-                {team2WinChance}%
-              </span>{" "}
-              chance for <span className="font-medium">{teams.team2}</span>
+    
+            <div className="mt-5 text-sm text-white bg-green-950 rounded-lg p-3 space-y-1">
+              <div>
+                <span className="text-green-400 font-semibold">
+                  {team1WinChance}%
+                </span>{" "}
+                chance for <span className="font-medium">{teams.team1}</span>
+              </div>
+              <div>
+                <span className="text-green-400 font-semibold">
+                  {team2WinChance}%
+                </span>{" "}
+                chance for <span className="font-medium">{teams.team2}</span>
+              </div>
+              <div className="text-base text-white mt-2 text-center">
+                Total votes: {totalVotes}
+              </div>
             </div>
-            <div className="text-lg text-white mt-2 flex flex-col items-center justify-center">
-              Total votes: {totalVotes}
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className="text-sm text-gray-300">{matchStatus}</div>
-      )}
-    </div>
-  );
+          </>
+        ) : (
+          <div className="text-sm text-gray-300 text-center">{matchStatus}</div>
+        )}
+      </div>
+    );
+    
 };
 
 export default IPL;

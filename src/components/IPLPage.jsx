@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import IPLChat from "./LiveChat/IPLChat.jsx";
 import IPL from "./PredictionPoll/IPL.jsx";
+import "../index.css";
 
 const iplData = {
   name: "IPL",
@@ -111,7 +112,7 @@ const IPLPage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-black text-white">
+    <div className="flex flex-col items-center min-h-screen bg-black text-white px-2 md:px-4">
       <div
         className={`flex flex-col items-center text-center mt-6 ${
           showChat ? "w-[70%]" : "w-full"
@@ -125,17 +126,29 @@ const IPLPage = () => {
         </marquee>
       </div>
 
-      <div className="flex w-full max-w-6xl mt-4">
+      <div className="video-layout" style={{ display: 'flex', width: '100%', maxWidth: '1200px', marginTop: '1rem' }}>
+
         <div
           ref={videoWrapperRef}
-          className={`${
-            showChat ? "w-[70%]" : "w-full"
-          } transition-all duration-300 aspect-video bg-black rounded-lg relative`}
+          className={`video-wrapper ${showChat ? "with-chat" : ""}`}
         >
           {!isPlaying ? (
-            <div className="flex items-center justify-center h-full bg-black">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                backgroundColor: "black",
+              }}
+            >
               <button
-                className="bg-[#17A56B] text-white px-4 py-2 rounded-md"
+                style={{
+                  backgroundColor: "#17A56B",
+                  color: "white",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.375rem",
+                }}
                 onClick={() => setIsPlaying(true)}
               >
                 Watch Now
@@ -143,11 +156,8 @@ const IPLPage = () => {
             </div>
           ) : (
             <iframe
-              className={`w-full h-full rounded-t-lg ${
-                adsDisabled ? "pointer-events-none" : ""
-              }`}
+              className={adsDisabled ? "pointer-events-none" : ""}
               src={iplData.url}
-              frameBorder="0"
               allowFullScreen
               title="Live Stream"
             />
@@ -223,7 +233,10 @@ const IPLPage = () => {
         </div>
 
         {showChat ? (
-          <div className="w-[30%] ml-4">
+          <div
+            className="chat-wrapper"
+            style={{ width: "30%", marginLeft: "1rem" }}
+          >
             <IPLChat onToggleChat={toggleChat} showChat={showChat} />
           </div>
         ) : (
@@ -316,3 +329,4 @@ const IPLPage = () => {
 };
 
 export default IPLPage;
+

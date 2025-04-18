@@ -5,7 +5,7 @@ const AdBanner = () => {
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
-    const bannerWidth = isMobile ? window.innerWidth : 728;
+    const bannerWidth = isMobile ? 400 : 728;
     const bannerHeight = isMobile ? 50 : 90;
 
     const configScript = document.createElement("script");
@@ -44,7 +44,7 @@ const AdBanner = () => {
       ref={bannerRef}
       style={{
         width: "100%",
-        maxWidth: "728px",
+        maxWidth: window.innerWidth < 768 ? "390px" : "728px", // responsive width
         height: "auto",
         marginLeft: "0",
         textAlign: "left",

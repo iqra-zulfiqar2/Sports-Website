@@ -20,7 +20,7 @@ body {
   background-color: black; 
   color: white; 
   min-height: 100vh;
-  max-width: 1280px;
+  max-width: 1496px;
   min-width: 320px;
   width: 100%;
 }
@@ -28,7 +28,7 @@ body {
 header {
   max-width: 1280px;
   min-width: 320px;
-  margin: 0 auto;cd
+  margin: 0 auto;
   width: 100%;
   left: 50%;
   transform: translateX(-50%);
@@ -122,6 +122,22 @@ header {
   background-color: #2a6cb4;
 }
 
+
+.video-wrapper {
+  position: relative;
+  background-color: black;
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Chat visibility on large screens */
+.video-wrapper.with-chat {
+  width: 70%;
+}
+
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -130,5 +146,36 @@ header {
 
   button {
     // background-color: #f9f9f9;
+  }
+}
+
+
+
+/* Responsive behavior */
+@media screen and (max-width: 1024px) {
+  .video-layout {
+    flex-direction: column;
+  }
+
+  .video-wrapper,
+  .video-wrapper.with-chat {
+    width: 100% !important;
+  }
+
+  .chat-wrapper {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .video-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .chat-toggle-btn {
+    top: 5rem;
+    font-size: 1.5rem;
   }
 }

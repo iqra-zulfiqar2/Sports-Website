@@ -77,7 +77,7 @@ const CarouselPage = () => {
 
   const handleWatchNow = () => {
     const slug = slides[currentSlide].slug;
-  
+
     if (slug === "ipl") {
       navigate("/cricket/t20-league/watch-live-free-ipl-matches");
     } else if (slug === "psl") {
@@ -88,7 +88,6 @@ const CarouselPage = () => {
       navigate(`/league/${slug}`);
     }
   };
-  
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
@@ -123,13 +122,11 @@ const CarouselPage = () => {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-    <img
-  src={slide.image}
-  alt={`Slide ${index + 1}`}
-  className="w-full h-[650px] object-cover cursor-pointer"
-/>
-
-
+            <img
+              src={slide.image}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-[650px] object-cover cursor-pointer"
+            />
           </div>
         ))}
 
@@ -173,9 +170,10 @@ const CarouselPage = () => {
                   } else if (league.slug === "bpl") {
                     navigate("/cricket/t20-league/watch-live-free-bpl-matches");
                   } else if (league.slug === "ilt20") {
-                    navigate("/cricket/t20-league/watch-live-free-ilt20-matches");
-                  }
-                  else {
+                    navigate(
+                      "/cricket/t20-league/watch-live-free-ilt20-matches"
+                    );
+                  } else {
                     navigate(`/league/${league.slug}`);
                   }
                 }}
@@ -188,22 +186,21 @@ const CarouselPage = () => {
           Football League
         </h2>
         <Slider {...sliderSettings} className="w-full">
-  {footballLeagues.map((league, index) => (
-    <div key={index} className="px-1">
-      <img
-        src={league.src}
-        alt={league.name}
-        className="w-full rounded-lg cursor-pointer"
-        onClick={() =>
-          navigate(`/${league.slug}-live-streaming-free/`)
-        }
-      />
-    </div>
-  ))}
-</Slider>
+          {footballLeagues.map((league, index) => (
+            <div key={index} className="px-1">
+              <img
+                src={league.src}
+                alt={league.name}
+                className="w-full rounded-lg cursor-pointer"
+                onClick={() => navigate(`/${league.slug}-live-streaming-free/`)}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
     </div>
   );
 };
 
 export default CarouselPage;
+
